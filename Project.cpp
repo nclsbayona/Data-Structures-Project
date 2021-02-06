@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 #include "Project.h"
 using namespace std;
+
 char* ScrabbleGame::start(char* file){
     char* msg=new char[100];
     return msg;
