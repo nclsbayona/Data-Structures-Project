@@ -9,6 +9,7 @@ int main(){
         cin.getline(input, MAX, '\n');
         if (!strcmp(input, "exit"))
             return 0;
+        delete[] input;
     }
     return 0;
 }
