@@ -15,7 +15,7 @@ char *decide(Scrabble *obj, char *input)
     {
         char *token;
         int k = 0;
-        std::string *words = new std::string[2];
+        string *words = new string[2];
         token = strtok(input, " ");
         while (token != NULL && k < 2)
         {
