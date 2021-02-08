@@ -5,23 +5,27 @@
 using namespace std;
 char *decide(Scrabble *obj, char *input)
 {
+    char *retorno;
+    strcpy(retorno, "Comando invalido");
     if (!strcmp(input, "ayuda"))
-        return obj->help();
-    else
     {
-        input = strtok(input, " ");
-        char *command = new char[strlen(input)+1];
-        strcpy(command, input);
-        input = strtok(NULL, " ");
-        char *argument = new char[strlen(input)+1];
-        strcpy(argument, input);
-        if (!strcmp(command, "ayuda"))
-            return obj->help(argument);
-        delete[] input;
-        delete[] command;
-        delete[] argument;
+        return obj->help();
     }
-    return 0;
+    else if (strlen(input) >= 7)
+    {
+        char *token;
+        int k = 0;
+        std::string *words = new std::string[2];
+        token = strtok(input, " ");
+        while (token != NULL && k < 2)
+        {
+            words[k] = token;
+            k++;
+            token = strtok(NULL, " ");
+        }
+        strcpy(retorno, obj->help((char*)words[1].c_str()));
+    }
+    return retorno;
 }
 
 char *Scrabble::help()
@@ -56,15 +60,15 @@ char *Scrabble::help(char *command)
     else if (!strcmp(command, "palabras_por_prefijo"))
         strcpy(cmd_help, "NOMBRE\npalabras_por_prefijo\nSINOPSIS\npalabras_por_prefijo [PALABRA]\nDESCRIPCION\nDado un prefijo de pocas letras, el comando recorre el(los) árbol(es) de letras (construído(s) con el \ncomando iniciar_arbol) para ubicar todas las palabras posibles a construir a partir de ese prefijo. A partir del \nrecorrido, se presenta al usuario en pantalla todas las posibles palabras, la longitud de cada una y la puntuación \nque cada una puede obtener.\nMENSAJES DE SALIDA\n(Prefijo inválido) Prefijo prefijo no pudo encontrarse en el diccionario.\n(Resultado exitoso) Las palabras que inician con este prefijo son:\n\n");
 
-     else if (!strcmp(command, "palabras_por_sufijo"))
+    else if (!strcmp(command, "palabras_por_sufijo"))
         strcpy(cmd_help, "NOMBRE\npalabras_por_sufijo\nSINOPSIS\npalabras_por_sufijo [PALABRA]\nDESCRIPCION\nDado un sufijo de pocas letras, el comando recorre el(los) árbol(es) de letras (construído(s) con el\ncomando iniciar_arbol_inverso) para ubicar todas las palabras posibles a construir que terminan con ese sufijo.\nA partir del recorrido, se presenta al usuario en pantalla todas las posibles palabras, la longitud de cada una y\nla puntuación que cada una puede obtener.\nMENSAJES DE SALIDA\n(Sufijo inválido) Sufijo sufijo no pudo encontrarse en el diccionario.\n(Resultado exitoso) Las palabras que terminan con este sufijo son:\n\n");
 
-     else if (!strcmp(command, "grafo_de_palabras"))
+    else if (!strcmp(command, "grafo_de_palabras"))
         strcpy(cmd_help, "NOMBRE\ngrafo_de_palabras\nSINOPSIS\ngrafo_de_palabras []\nDESCRIPCION\nCon las palabras ya almacenadas en el diccionario, el comando construye un grafo de palabras, en donde \ncada palabra se conecta a las demás si y sólo sí difieren en un única letra (con las demás letras iguales y en las \nmismas posiciones).\nMENSAJES DE SALIDA\n(Resultado exitoso) Grafo construído correctamente.\n\n");
 
     else if (!strcmp(command, "posibles_palabras"))
         strcpy(cmd_help, "NOMBRE\nposibles_palabras\nSINOPSIS\nposibles_palabras [LETRAS]\nDESCRIPCION\nDadas ciertas letras en una cadena de caracteres (sin importar su orden), el comando debe presentar en pantalla todas las posibles palabras válidas a construir, indicando la longitud de cada una y la puntuación que se puede obtener con cada una. En las letras de la cadena de caracteres, puede admitirse un único símbolo comodín (?), el cual representará una letra desconocida y permitirá generar mayores posibilidades de palabras a construir. Para este propósito, el comando debe hacer uso del grafo de palabras construído con el comando grafo_de_palabras\nMENSAJES DE SALIDA\n(Letras inválidas) La cadena letras contiene símbolos inválidos.\n(Resultado exitoso) Las posibles palabras a construir con las letras letras son:\n\n");
-        
+
     else
         strcpy(cmd_help, "No existe\n\n");
 
