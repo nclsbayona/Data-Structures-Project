@@ -91,11 +91,34 @@ salida en pantalla:
 (Letras inválidas) La cadena letras contiene símbolos inválidos.
 (Resultado  exitoso)  Las  posibles  palabras  a  construir  con  las   letras   letras son: descripción: Dadas ciertas letras en una cadena de caracteres (sin importar su orden), el comando debe presentar en pantalla todas las posibles palabras válidas a construir, indicando la longitud de cada una y la puntuación que se puede obtener con cada una. En las letras de la cadena de caracteres, puede admitirse un único símbolo comodín (?), el cual representará una letra desconocida y permitirá generar mayores posibilidades de palabras a construir. Para este propósito, el comando debe hacer uso del grafo de palabras construído con el comando grafo_de_palabras.
 */
+char *decide(Scrabble *obj, char *input);
 class Scrabble
 {
+    //RECORDAR
+    // ayuda -> help
+    // inicializar -> start
+    // iniciar_inverso -> inverse_start
+    // puntaje -> score
+    // salir -> exit
+    // iniciar_arbol -> start_tree
+    // iniciar_arbol_inverso -> start_inverse_tree
+    // palabras_por_prefijo -> words_by_prefix
+    // palabras_por_sufijo -> words_by_suffix
+    // grafo_de_palabras -> word_graph
+    // posibles_palabras -> possible_words
     public:
         char* help(void);
         char* help(char *command);
+        char* start(char* archive_name);
+        char* inverse_start(char* archive_name);
+        char* score(char* word);
+        void exit();
+        char* start_tree(char* archive_name);
+        char* start_inverse_tree(char* archive_name);
+        char* words_by_prefix(char* prefix);
+        char* words_by_suffix(char* suffix);
+        char* word_graph();
+        char* possible_words(char* characters);
 };
 #include "ScrabbleImplementation.hxx"
 #endif
