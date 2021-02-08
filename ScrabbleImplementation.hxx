@@ -23,8 +23,31 @@ char *decide(Scrabble *obj, char *input)
             k++;
             token = strtok(NULL, " ");
         }
-        if (!strcmp((char*)words[0].c_str(), "ayuda"))
-            strcpy(retorno, obj->help((char*)words[1].c_str()));
+        if (!strcmp((char *)words[0].c_str(), "ayuda"))
+            strcpy(retorno, obj->help((char *)words[1].c_str()));
+        else if (!strcmp((char *)words[0].c_str(), "inicializar"))
+            strcpy(retorno, obj->start((char *)words[1].c_str()));
+        else if (!strcmp((char *)words[0].c_str(), "iniciar_inverso"))
+            strcpy(retorno, obj->inverse_start((char *)words[1].c_str()));
+        else if (!strcmp((char *)words[0].c_str(), "puntaje"))
+            strcpy(retorno, obj->score((char *)words[1].c_str()));
+        else if (!strcmp((char *)words[0].c_str(), "salir"))
+            strcpy(retorno, 0);
+        else if (!strcmp((char *)words[0].c_str(), "iniciar_arbol"))
+            strcpy(retorno, obj->start_tree((char *)words[1].c_str()));
+        else if (!strcmp((char *)words[0].c_str(), "iniciar_arbol_inverso"))
+            strcpy(retorno, obj->start_inverse_tree((char *)words[1].c_str()));
+        else if (!strcmp((char *)words[0].c_str(), "palabras_por_prefijo"))
+            strcpy(retorno, obj->words_by_prefix((char *)words[1].c_str()));
+        else if (!strcmp((char *)words[0].c_str(), "palabras_por_sufijo"))
+            strcpy(retorno, obj->words_by_suffix((char *)words[1].c_str()));
+        else if (!strcmp((char *)words[0].c_str(), "grafo_de_palabras"))
+            strcpy(retorno, obj->word_graph());
+        else if (!strcmp((char *)words[0].c_str(), "possibles_palabras"))
+            strcpy(retorno, obj->possible_words((char *)words[1].c_str()));
+        else
+            strcpy(retorno, "Datos ingresados erroneamente");
+        
         delete[] words;
     }
     return retorno;
@@ -75,4 +98,62 @@ char *Scrabble::help(char *command)
         strcpy(cmd_help, "No existe\n\n");
 
     return cmd_help;
+}
+
+char *Scrabble::start(char *archive_name)
+{
+    char *retorno;
+    return retorno;
+}
+
+char *Scrabble::inverse_start(char *archive_name)
+{
+    char *retorno;
+    return retorno;
+}
+
+char *Scrabble::score(char *word)
+{
+    char *retorno;
+    return retorno;
+}
+
+void Scrabble::exit()
+{
+}
+
+char *Scrabble::start_tree(char *archive_name)
+{
+    char *retorno;
+    return retorno;
+}
+
+char *Scrabble::start_inverse_tree(char *archive_name)
+{
+    char *retorno;
+    return retorno;
+}
+
+char *Scrabble::words_by_prefix(char *prefix)
+{
+    char *retorno;
+    return retorno;
+}
+
+char *Scrabble::words_by_suffix(char *suffix)
+{
+    char *retorno;
+    return retorno;
+}
+
+char *Scrabble::word_graph()
+{
+    char *retorno;
+    return retorno;
+}
+
+char *Scrabble::possible_words(char *characters)
+{
+    char *retorno;
+    return retorno;
 }

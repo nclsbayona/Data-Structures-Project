@@ -91,7 +91,6 @@ salida en pantalla:
 (Letras inválidas) La cadena letras contiene símbolos inválidos.
 (Resultado  exitoso)  Las  posibles  palabras  a  construir  con  las   letras   letras son: descripción: Dadas ciertas letras en una cadena de caracteres (sin importar su orden), el comando debe presentar en pantalla todas las posibles palabras válidas a construir, indicando la longitud de cada una y la puntuación que se puede obtener con cada una. En las letras de la cadena de caracteres, puede admitirse un único símbolo comodín (?), el cual representará una letra desconocida y permitirá generar mayores posibilidades de palabras a construir. Para este propósito, el comando debe hacer uso del grafo de palabras construído con el comando grafo_de_palabras.
 */
-char *decide(Scrabble *obj, char *input);
 class Scrabble
 {
     //RECORDAR
@@ -120,5 +119,6 @@ class Scrabble
         char* word_graph();
         char* possible_words(char* characters);
 };
+char *decide(Scrabble *obj, char *input);
 #include "ScrabbleImplementation.hxx"
 #endif
