@@ -96,6 +96,7 @@ class Scrabble
     public:
         char* help(void);
         char* help(char *command);
+        char* start();
 };
 #include "ScrabbleImplementation.hxx"
 #endif

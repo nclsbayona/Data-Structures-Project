@@ -9,7 +9,6 @@ int main()
     while (true)
     {
         input = new char[MAX];
-        
         cout << "$ ";
         cin.getline(input, MAX, '\n');
         if (!strcmp(input,"salir"))
@@ -17,4 +16,5 @@ int main()
         cout<<decide(object, input);
         delete[] input;
     }
+    return 0;
 }
