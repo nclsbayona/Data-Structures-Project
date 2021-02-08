@@ -23,7 +23,9 @@ char *decide(Scrabble *obj, char *input)
             k++;
             token = strtok(NULL, " ");
         }
-        strcpy(retorno, obj->help((char*)words[1].c_str()));
+        if (!strcmp((char*)words[0].c_str(), "ayuda"))
+            strcpy(retorno, obj->help((char*)words[1].c_str()));
+        delete[] words;
     }
     return retorno;
 }
