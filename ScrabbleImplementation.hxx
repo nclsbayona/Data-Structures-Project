@@ -19,6 +19,8 @@ vector<char *> tokenize(char *input, const char *delim)
 
 char *decide(Scrabble *obj, char *input)
 {
+    if (!input)
+        return 0;
     if (!strcmp(input, "ayuda"))
         return obj->help();
     else
