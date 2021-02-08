@@ -1,18 +1,38 @@
 #include <iostream>
 #include <string.h>
+#include <vector>
 #include "ScrabbleClass.h"
 #define MAXBUFFER 1024
 using namespace std;
+
+vector<char *> tokenize(char *input, const char *delim)
+{
+    vector<char *> tokens;
+    char *a = strtok(input, delim);
+    while (a)
+    {
+        tokens.push_back(a);
+        a = strtok(NULL, delim);
+    }
+    return tokens;
+}
+
 char *decide(Scrabble *obj, char *input)
 {
+<<<<<<< HEAD
     char *retorno;
     strcpy(retorno, "Comando invalido");
+=======
+    if (!input)
+        return 0;
+>>>>>>> bfcde6c33af4b83b9ce1cd92f59b1095497f083f
     if (!strcmp(input, "ayuda"))
     {
         return obj->help();
     }
     else if (strlen(input) >= 7)
     {
+<<<<<<< HEAD
         char *token;
         int k = 0;
         std::string *words = new std::string[2];
@@ -24,6 +44,27 @@ char *decide(Scrabble *obj, char *input)
             token = strtok(NULL, " ");
         }
         strcpy(retorno, obj->help((char*)words[1].c_str()));
+=======
+        try
+        {
+            vector<char *> tokens = tokenize(input, " ");
+            char *command = new char[strlen(tokens[0]) + 1];
+            strcpy(command, tokens[0]);
+            if (tokens.size() > 1)
+            {
+                char *argument = new char[strlen(tokens[1]) + 1];
+                strcpy(argument, tokens[1]);
+                if (!strcmp(command, "ayuda"))
+                    return obj->help(argument);
+                delete[] argument;
+            }
+            delete[] command;
+        }
+        catch (...)
+        {
+            return 0;
+        }
+>>>>>>> bfcde6c33af4b83b9ce1cd92f59b1095497f083f
     }
     return retorno;
 }
