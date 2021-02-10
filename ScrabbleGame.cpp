@@ -11,8 +11,6 @@ int main()
         input = new char[MAX];
         cout << "$ ";
         cin.getline(input, MAX, '\n');
-        if (!strcmp(input, "salir"))
-            return 0;
         char *retorno = decide(object, input);
         cout << retorno << endl;
 

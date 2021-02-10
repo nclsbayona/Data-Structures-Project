@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdlib>
 #include <string.h>
 #include "ScrabbleClass.h"
 #define MAXBUFFER 1024
@@ -6,10 +7,18 @@ using namespace std;
 char *decide(Scrabble *obj, char *input)
 {
     char *retorno;
-    strcpy(retorno, "Comando invalido");
+    strcpy(retorno, "Comando invalido\n\n");
     if (!strcmp(input, "ayuda"))
     {
         return obj->help();
+    }
+    else if (!strcmp(input, "salir"))
+    {
+        obj->exit();
+    }
+    else if (!strcmp(input, "grafo_de_palabras"))
+    {
+        strcpy(retorno, obj->word_graph());
     }
     else if (strlen(input) >= 7)
     {
@@ -51,14 +60,6 @@ char *decide(Scrabble *obj, char *input)
 
             else if (!strcmp((char *)words[0].c_str(), "possibles_palabras"))
                 strcpy(retorno, obj->possible_words((char *)words[1].c_str()));
-        }
-        else if (k == 1)
-        {
-            if (!strcmp((char *)words[0].c_str(), "salir"))
-                strcpy(retorno, "");
-
-            else if (!strcmp((char *)words[0].c_str(), "grafo_de_palabras"))
-                strcpy(retorno, obj->word_graph());
         }
         else
             strcpy(retorno, "Datos ingresados erroneamente");
@@ -117,58 +118,59 @@ char *Scrabble::help(char *command)
 
 char *Scrabble::start(char *archive_name)
 {
-    char *retorno=this->help();
+    char *retorno = this->help("inicializar");
     return retorno;
 }
 
 char *Scrabble::inverse_start(char *archive_name)
 {
-    char *retorno=this->help();
+    char *retorno = this->help("iniciar_inverso");
     return retorno;
 }
 
 char *Scrabble::score(char *word)
 {
-    char *retorno=this->help();
+    char *retorno = this->help("puntaje");
     return retorno;
 }
 
 void Scrabble::exit()
 {
+    std::exit(0);
 }
 
 char *Scrabble::start_tree(char *archive_name)
 {
-    char *retorno=this->help();
+    char *retorno = this->help("iniciar_arbol");
     return retorno;
 }
 
 char *Scrabble::start_inverse_tree(char *archive_name)
 {
-    char *retorno=this->help();
+    char *retorno = this->help("iniciar_arbol_inverso");
     return retorno;
 }
 
 char *Scrabble::words_by_prefix(char *prefix)
 {
-    char *retorno=this->help();
+    char *retorno = this->help("palabras_por_prefijo");
     return retorno;
 }
 
 char *Scrabble::words_by_suffix(char *suffix)
 {
-    char *retorno=this->help();
+    char *retorno = this->help("palabras_por_sufijo");
     return retorno;
 }
 
 char *Scrabble::word_graph()
 {
-    char *retorno=this->help();
+    char *retorno = this->help("grafo_de_palabras");
     return retorno;
 }
 
 char *Scrabble::possible_words(char *characters)
 {
-    char *retorno=this->help();
+    char *retorno = this->help("posibles_palabras");
     return retorno;
 }
