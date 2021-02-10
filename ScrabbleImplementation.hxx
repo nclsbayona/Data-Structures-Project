@@ -34,20 +34,8 @@ char *decide(Scrabble *obj, char *input)
 
     else if (strlen(input) >= 7)
     {
-        char *token;
-        int k = 0;
-        char **words = new char *[2];
-        token = strtok(input, " ");
-        while (token != NULL && k < 2)
-        {
-            words[k] = new char[strlen(token) + 1];
-            strcpy(words[k++], token);
-            token = strtok(NULL, " ");
-        }
         // If the command is composed by two words
-        if (k == 2)
-        {
-            /*
+        /*
             string *words = new string[2];
             token = strtok(input, " ");
             while (token != NULL && k < 2)
@@ -114,6 +102,19 @@ char *decide(Scrabble *obj, char *input)
             }
             delete[] words;
             */
+        char *token;
+        int k = 0;
+        char **words = new char *[2];
+        token = strtok(input, " ");
+        while (token != NULL && k < 2)
+        {
+            words[k] = new char[strlen(token) + 1];
+            strcpy(words[k++], token);
+            token = strtok(NULL, " ");
+        }
+        
+        if (k == 2)
+        {            
             if ((!strcmp(words[0], "ayuda")))
             {
                 delete[] retorno;
