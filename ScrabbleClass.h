@@ -105,6 +105,7 @@ class Scrabble
     // palabras_por_sufijo -> words_by_suffix
     // grafo_de_palabras -> word_graph
     // posibles_palabras -> possible_words
+    
     public:
         char* help(void);
         char* help(char *command);

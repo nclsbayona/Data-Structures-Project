@@ -1,1 +1,14 @@
-*.o
+# Ignore everything except listed below
+*
+
+# Except
+!*.cpp
+!*.h
+!*.pdf
+!*.txt
+!*.md
+!*.hxx
+!*/
+!.git
+!.github
+!.gitignore
