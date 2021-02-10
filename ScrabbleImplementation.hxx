@@ -36,6 +36,7 @@ char *decide(Scrabble *obj, char *input)
     {
         // If the command is composed by two words
         /*
+        //Implementation of this part with string
             string *words = new string[2];
             token = strtok(input, " ");
             while (token != NULL && k < 2)
@@ -102,6 +103,7 @@ char *decide(Scrabble *obj, char *input)
             }
             delete[] words;
             */
+        //Implementation of this part with char**
         char *token;
         int k = 0;
         char **words = new char *[2];
