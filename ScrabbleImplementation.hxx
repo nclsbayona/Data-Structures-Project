@@ -4,71 +4,181 @@
 #include "ScrabbleClass.h"
 #define MAXBUFFER 1024
 using namespace std;
+
+// Function to decide which command to execute
 char *decide(Scrabble *obj, char *input)
 {
-    char *retorno;
+    // Initializes return message
+    char *retorno = new char[19];
     strcpy(retorno, "Comando invalido\n\n");
+
+    // Compares input with a value and returns its corresponding message
     if (!strcmp(input, "ayuda"))
     {
-        return obj->help();
+        delete[] retorno;
+        retorno = obj->help();
     }
+
+    // Compares input with a value and returns its corresponding message
     else if (!strcmp(input, "salir"))
     {
         obj->exit();
     }
+
+    // Compares input with a value and returns its corresponding message
     else if (!strcmp(input, "grafo_de_palabras"))
     {
-        strcpy(retorno, obj->word_graph());
+        delete[] retorno;
+        retorno = obj->word_graph();
     }
+
     else if (strlen(input) >= 7)
     {
         char *token;
         int k = 0;
-        string *words = new string[2];
+        char **words = new char *[2];
         token = strtok(input, " ");
         while (token != NULL && k < 2)
         {
-            words[k] = token;
-            k++;
+            words[k] = new char[strlen(token) + 1];
+            strcpy(words[k++], token);
             token = strtok(NULL, " ");
         }
+        // If the command is composed by two words
         if (k == 2)
         {
-            if ((!strcmp((char *)words[0].c_str(), "ayuda")))
-                strcpy(retorno, obj->help((char *)words[1].c_str()));
+            /*
+            string *words = new string[2];
+            token = strtok(input, " ");
+            while (token != NULL && k < 2)
+            {
+                words[k] = token;
+                k++;
+                token = strtok(NULL, " ");
+            }
+            if (k == 2)
+            {
+                if ((!strcmp((char *)words[0].c_str(), "ayuda")))
+                {
+                    delete[] retorno;
+                    retorno = obj->help((char *)words[1].c_str());
+                }
 
-            else if (!strcmp((char *)words[0].c_str(), "inicializar"))
-                strcpy(retorno, obj->start((char *)words[1].c_str()));
+                else if (!strcmp((char *)words[0].c_str(), "inicializar"))
+                {
+                    delete[] retorno;
+                    retorno = obj->start((char *)words[1].c_str());
+                }
 
-            else if (!strcmp((char *)words[0].c_str(), "iniciar_inverso"))
-                strcpy(retorno, obj->inverse_start((char *)words[1].c_str()));
+                else if (!strcmp((char *)words[0].c_str(), "iniciar_inverso"))
+                {
+                    delete[] retorno;
+                    retorno = obj->inverse_start((char *)words[1].c_str());
+                }
 
-            else if (!strcmp((char *)words[0].c_str(), "puntaje"))
-                strcpy(retorno, obj->score((char *)words[1].c_str()));
+                else if (!strcmp((char *)words[0].c_str(), "puntaje"))
+                {
+                    delete[] retorno;
+                    retorno = obj->score((char *)words[1].c_str());
+                }
 
-            else if (!strcmp((char *)words[0].c_str(), "iniciar_arbol"))
-                strcpy(retorno, obj->start_tree((char *)words[1].c_str()));
+                else if (!strcmp((char *)words[0].c_str(), "iniciar_arbol"))
+                {
+                    delete[] retorno;
+                    retorno = obj->start_tree((char *)words[1].c_str());
+                }
 
-            else if (!strcmp((char *)words[0].c_str(), "iniciar_arbol_inverso"))
-                strcpy(retorno, obj->start_inverse_tree((char *)words[1].c_str()));
+                else if (!strcmp((char *)words[0].c_str(), "iniciar_arbol_inverso"))
+                {
+                    delete[] retorno;
+                    retorno = obj->start_inverse_tree((char *)words[1].c_str());
+                }
 
-            else if (!strcmp((char *)words[0].c_str(), "palabras_por_prefijo"))
-                strcpy(retorno, obj->words_by_prefix((char *)words[1].c_str()));
+                else if (!strcmp((char *)words[0].c_str(), "palabras_por_prefijo"))
+                {
+                    delete[] retorno;
+                    retorno = obj->words_by_prefix((char *)words[1].c_str());
+                }
 
-            else if (!strcmp((char *)words[0].c_str(), "palabras_por_sufijo"))
-                strcpy(retorno, obj->words_by_suffix((char *)words[1].c_str()));
+                else if (!strcmp((char *)words[0].c_str(), "palabras_por_sufijo"))
+                {
+                    delete[] retorno;
+                    retorno = obj->words_by_suffix((char *)words[1].c_str());
+                }
 
-            else if (!strcmp((char *)words[0].c_str(), "possibles_palabras"))
-                strcpy(retorno, obj->possible_words((char *)words[1].c_str()));
+                else if (!strcmp((char *)words[0].c_str(), "possibles_palabras"))
+                {
+                    delete[] retorno;
+                    retorno = obj->possible_words((char *)words[1].c_str());
+                }
+            }
+            delete[] words;
+            */
+            if ((!strcmp(words[0], "ayuda")))
+            {
+                delete[] retorno;
+                retorno = obj->help(words[1]);
+            }
+
+            else if (!strcmp(words[0], "inicializar"))
+            {
+                delete[] retorno;
+                retorno = obj->start(words[1]);
+            }
+
+            else if (!strcmp(words[0], "iniciar_inverso"))
+            {
+                delete[] retorno;
+                retorno = obj->inverse_start(words[1]);
+            }
+
+            else if (!strcmp(words[0], "puntaje"))
+            {
+                delete[] retorno;
+                retorno = obj->score(words[1]);
+            }
+
+            else if (!strcmp(words[0], "iniciar_arbol"))
+            {
+                delete[] retorno;
+                retorno = obj->start_tree(words[1]);
+            }
+
+            else if (!strcmp(words[0], "iniciar_arbol_inverso"))
+            {
+                delete[] retorno;
+                retorno = obj->start_inverse_tree(words[1]);
+            }
+
+            else if (!strcmp(words[0], "palabras_por_prefijo"))
+            {
+                delete[] retorno;
+                retorno = obj->words_by_prefix(words[1]);
+            }
+
+            else if (!strcmp(words[0], "palabras_por_sufijo"))
+            {
+                delete[] retorno;
+                retorno = obj->words_by_suffix(words[1]);
+            }
+
+            else if (!strcmp(words[0], "possibles_palabras"))
+            {
+                delete[] retorno;
+                retorno = obj->possible_words(words[1]);
+            }
         }
-        else
-            strcpy(retorno, "Datos ingresados erroneamente");
 
-        delete[] words;
+        for (int i = 0; i < k; ++i)
+        {
+            delete[] words[i];
+        }
+        delete words;
     }
     return retorno;
 }
 
+// Function that shows all available functions
 char *Scrabble::help()
 {
     char *cmd = new char[MAXBUFFER];
@@ -77,6 +187,7 @@ char *Scrabble::help()
     return cmd;
 }
 
+// Function that shows each available command information
 char *Scrabble::help(char *command)
 {
     char *cmd_help = new char[MAXBUFFER];
@@ -111,7 +222,7 @@ char *Scrabble::help(char *command)
         strcpy(cmd_help, "NOMBRE\nposibles_palabras\nSINOPSIS\nposibles_palabras [LETRAS]\nDESCRIPCION\nDadas ciertas letras en una cadena de caracteres (sin importar su orden), el comando debe presentar en pantalla todas las posibles palabras válidas a construir, indicando la longitud de cada una y la puntuación que se puede obtener con cada una. En las letras de la cadena de caracteres, puede admitirse un único símbolo comodín (?), el cual representará una letra desconocida y permitirá generar mayores posibilidades de palabras a construir. Para este propósito, el comando debe hacer uso del grafo de palabras construído con el comando grafo_de_palabras\nMENSAJES DE SALIDA\n(Letras inválidas) La cadena letras contiene símbolos inválidos.\n(Resultado exitoso) Las posibles palabras a construir con las letras letras son:\n\n");
 
     else
-        strcpy(cmd_help, "No existe\n\n");
+        strcpy(cmd_help, "No existe el comando especificado\n\n");
 
     return cmd_help;
 }
@@ -136,6 +247,7 @@ char *Scrabble::score(char *word)
 
 void Scrabble::exit()
 {
+    // Exit command that ends execution
     std::exit(0);
 }
 
