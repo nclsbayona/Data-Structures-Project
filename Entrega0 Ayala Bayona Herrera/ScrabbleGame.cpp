@@ -1,0 +1,27 @@
+#include <iostream>
+#include "ScrabbleClass.h"
+const int MAX = 2048;
+using namespace std;
+int main()
+{
+    // Creating the Scrabble object, where you play the game
+    Scrabble *object = new Scrabble;
+    // Creating a variable where to save input data
+    char *input;
+    while (true)
+    {
+        // Save space for the input
+        input = new char[MAX];
+        cout << "$ ";
+
+        // Read input from cin
+        cin.getline(input, MAX, '\n');
+
+        // Show response message
+        cout << decide(object, input) << endl;
+
+        // Free space
+        delete[] input;
+    }
+    return 0;
+}
