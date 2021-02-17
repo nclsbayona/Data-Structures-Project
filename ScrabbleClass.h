@@ -121,5 +121,4 @@ class Scrabble
         char* possible_words(char* characters);
 };
 char *decide(Scrabble *obj, char *input);
-#include "ScrabbleImplementation.hxx"
 #endif
