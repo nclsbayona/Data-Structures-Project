@@ -16,7 +16,7 @@ int main()
         getline(cin, input, '\n');
 
         // Show response message
-        cout << decide(object, input) << endl;
+        cout << decide(object, (char*)input.c_str()) << endl;
     }
     return 0;
 }

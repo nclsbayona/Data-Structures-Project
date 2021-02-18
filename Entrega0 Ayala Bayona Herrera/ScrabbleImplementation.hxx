@@ -6,7 +6,7 @@
 using namespace std;
 
 // Function to decide which command to execute
-char *decide(Scrabble *obj, char *input)
+char *decide(Scrabble *obj, char* input)
 {
     // Initializes return message
     char *retorno = new char[19];
@@ -51,7 +51,7 @@ char *decide(Scrabble *obj, char *input)
                 if ((!strcmp((char *)words[0].c_str(), "ayuda")))
                 {
                     delete[] retorno;
-                    retorno = obj->help((char *)words[1].c_str());
+                    retorno = obj->help((char*)words[1].c_str());
                 }
 
                 else if (!strcmp((char *)words[0].c_str(), "inicializar"))
@@ -233,21 +233,21 @@ char *Scrabble::help(char *command)
     return cmd_help;
 }
 
-char *Scrabble::start(char *archive_name)
+char* Scrabble::start(char* archive_name)
 {
-    char *retorno = this->help("inicializar");
+    char* retorno = this->help("inicializar");
     return retorno;
 }
 
-char *Scrabble::inverse_start(char *archive_name)
+char* Scrabble::inverse_start(char* archive_name)
 {
-    char *retorno = this->help("iniciar_inverso");
+    char* retorno = this->help("iniciar_inverso");
     return retorno;
 }
 
-char *Scrabble::score(char *word)
+char* Scrabble::score(char* word)
 {
-    char *retorno = this->help("puntaje");
+    char* retorno = this->help("puntaje");
     return retorno;
 }
 
@@ -257,38 +257,38 @@ void Scrabble::exit()
     std::exit(0);
 }
 
-char *Scrabble::start_tree(char *archive_name)
+char* Scrabble::start_tree(char* archive_name)
 {
-    char *retorno = this->help("iniciar_arbol");
+    char* retorno = this->help("iniciar_arbol");
     return retorno;
 }
 
-char *Scrabble::start_inverse_tree(char *archive_name)
+char* Scrabble::start_inverse_tree(char* archive_name)
 {
-    char *retorno = this->help("iniciar_arbol_inverso");
+    char* retorno = this->help("iniciar_arbol_inverso");
     return retorno;
 }
 
-char *Scrabble::words_by_prefix(char *prefix)
+char* Scrabble::words_by_prefix(char* prefix)
 {
-    char *retorno = this->help("palabras_por_prefijo");
+    char* retorno = this->help("palabras_por_prefijo");
     return retorno;
 }
 
-char *Scrabble::words_by_suffix(char *suffix)
+char* Scrabble::words_by_suffix(char* suffix)
 {
-    char *retorno = this->help("palabras_por_sufijo");
+    char* retorno = this->help("palabras_por_sufijo");
     return retorno;
 }
 
-char *Scrabble::word_graph()
+char* Scrabble::word_graph()
 {
-    char *retorno = this->help("grafo_de_palabras");
+    char* retorno = this->help("grafo_de_palabras");
     return retorno;
 }
 
-char *Scrabble::possible_words(char *characters)
+char* Scrabble::possible_words(char* characters)
 {
-    char *retorno = this->help("posibles_palabras");
+    char* retorno = this->help("posibles_palabras");
     return retorno;
 }
