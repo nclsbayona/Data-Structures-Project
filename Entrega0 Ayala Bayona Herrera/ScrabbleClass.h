@@ -120,6 +120,6 @@ class Scrabble
         char* word_graph();
         char* possible_words(char* characters);
 };
-char *decide(Scrabble *obj, char *input);
+char *decide(Scrabble *obj, string input);
 #include "ScrabbleImplementation.hxx"
 #endif
