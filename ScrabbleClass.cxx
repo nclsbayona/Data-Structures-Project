@@ -5,7 +5,6 @@
 #define MAXBUFFER 1024
 using namespace std;
 
-
 // Function that shows all available functions
 char *ScrabbleClass::help()
 {
@@ -65,7 +64,7 @@ char *ScrabbleClass::start(char *archive_name)
         file.open(archive_name, std::ios::in);
         if (file.is_open())
         {
-            this->file_name=archive_name;
+            this->file_name = archive_name;
             std::string line;
             while (!file.eof())
             {
@@ -91,7 +90,7 @@ char *ScrabbleClass::start(char *archive_name)
 
 bool ScrabbleClass::check_caracter(std::string line)
 {
-    char *txt=new char[strlen(line.c_str())];
+    char *txt = new char[strlen(line.c_str())];
     strcpy(txt, line.c_str());
     for (int i = 0; i < strlen(txt); i++)
     {
@@ -101,8 +100,15 @@ bool ScrabbleClass::check_caracter(std::string line)
     return true;
 }
 
-
-
+std::string ScrabbleClass::inverse_caracters(std::string line)
+{
+    std::string retorno;
+    for (int i = strlen(line.c_str()) - 1; i >= 0; i--)
+    {
+        retorno += line[i];
+    }
+    return retorno;
+}
 char *ScrabbleClass::inverse_start(char *archive_name)
 {
     std::ifstream file;
@@ -113,25 +119,27 @@ char *ScrabbleClass::inverse_start(char *archive_name)
         file.open(archive_name, std::ios::in);
         if (file.is_open())
         {
-            this->file_name=archive_name;
+            this->file_name = archive_name;
             std::string line;
             while (!file.eof())
             {
                 getline(file, line);
                 if (this->check_caracter(line))
-                    std::reverse(line);
-                    this->dictionary.push_back(line);
+                {
+                    std::string inversedLine = this->inverse_caracters(line);
+                    this->dictionary.push_back(inversedLine);
+                }
                 else
                     strcat(retorno, "no se agrego una palabra ya que contiene caracteres invalido(s)\n");
             }
-            strcat(retorno, "El diccionario invertido se ha inicializado correctamente");
         }
-        else if (!file.is_open())
-        {
-            strcat(retorno, "El archivo ");
-            strcat(retorno, archive_name);
-            strcat(retorno, " no existe o no puede ser leido");
-        }
+        strcat(retorno, "El diccionario invertido se ha inicializado correctamente");
+    }
+    else if (!file.is_open())
+    {
+        strcat(retorno, "El archivo ");
+        strcat(retorno, archive_name);
+        strcat(retorno, " no existe o no puede ser leido");
     }
     else
         strcpy(retorno, "El diccionario invertido ya ha sido inicializado\n");

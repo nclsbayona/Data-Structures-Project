@@ -123,7 +123,7 @@ class ScrabbleClass
 
 private:
     bool check_caracter(std::string);
-    char* reverse_caracter(std::string);
+    std::string inverse_caracters(std::string);
     std::string file_name;
     std::list<std::string> dictionary;
     TreeClass tree;
