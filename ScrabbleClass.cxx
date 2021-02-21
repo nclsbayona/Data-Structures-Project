@@ -54,6 +54,7 @@ char *ScrabbleClass::help(char *command)
     return cmd_help;
 }
 
+//Reada a file in txt format and load the words in a list to initialize the dictionary
 char *ScrabbleClass::start(char *archive_name)
 {
     std::ifstream file;
@@ -87,6 +88,8 @@ char *ScrabbleClass::start(char *archive_name)
         strcpy(retorno, "El diccionario ya ha sido inicializado\n");
     return retorno;
 }
+
+// Returns true if all characters of a word are alphabetic characters
 bool ScrabbleClass::check_character(std::string line)
 {
     char *txt = new char[strlen(line.c_str())];
@@ -99,6 +102,7 @@ bool ScrabbleClass::check_character(std::string line)
     return true;
 }
 
+// Returns word passed by argument in inverse order
 std::string ScrabbleClass::inverse_characters(std::string line)
 {
     std::string retorno;
@@ -108,6 +112,8 @@ std::string ScrabbleClass::inverse_characters(std::string line)
     }
     return retorno;
 }
+
+//Reads a file in format txt and loads the words in a list to initialize the inverse dictionary
 char *ScrabbleClass::inverse_start(char *archive_name)
 {
     std::ifstream file;
@@ -145,6 +151,7 @@ char *ScrabbleClass::inverse_start(char *archive_name)
     return retorno;
 }
 
+// Returns score of a word in char* format
 char *ScrabbleClass::score(char *word)
 {
     std::string palabra, retorno;
@@ -162,6 +169,7 @@ char *ScrabbleClass::score(char *word)
     return retorn;
 }
 
+//Returns true if the word is in the list
 bool ScrabbleClass::find_in_dictionaries(std::string word, std::list<std::string> list)
 {
     std::list<std::string>::iterator listI;
@@ -174,6 +182,8 @@ bool ScrabbleClass::find_in_dictionaries(std::string word, std::list<std::string
     }
     return false;
 }
+
+//Returns a word's punctuation
 int ScrabbleClass::sumScore(char *word)
 {
     int score = 0;
