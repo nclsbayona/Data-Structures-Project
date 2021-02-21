@@ -105,6 +105,14 @@ class Scrabble
     // palabras_por_sufijo -> words_by_suffix
     // grafo_de_palabras -> word_graph
     // posibles_palabras -> possible_words
+
+    //Entrega 0
+    /*
+    - La implementación de la clase Scrabble con cabecera y archivo de implementación no está correctamente hecha. Los dos archivos deberían llamarse igual que la clase, sólo difieren en la extensión. Y la extensión del archivo de implementación debería ser cxx o cpp, pues no se está haciendo uso de plantillas (que es cuando se usa el hxx).
+    - Se generan varios warnings, un par relacionados con un delete que no se hace correctamente y otros por conversión de cadenas de c
+    caracteres literales a char*.
+    - Para el comando posibles_palabras, a pesar de que lo llamo con su parámetro, me dice que es un comando inválido.
+    */
     
     public:
         char* help(void);
