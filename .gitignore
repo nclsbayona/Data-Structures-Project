@@ -2,12 +2,11 @@
 *
 
 # Except
-!*.cpp
+!*.c*
 !*.h
 !*.pdf
 !*.txt
 !*.md
-!*.hxx
 !*/
 !.git
 !.github
