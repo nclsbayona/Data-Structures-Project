@@ -1,5 +1,8 @@
 #ifndef DATASTRUCTURESPROJECT
 #define DATASTRUCTURESPROJECT
+#include <string>
+#include <cstring>
+#include <fstream>
 //Codigo relevante
 /*
 Lista de Comandos:
@@ -91,7 +94,7 @@ salida en pantalla:
 (Letras inválidas) La cadena letras contiene símbolos inválidos.
 (Resultado  exitoso)  Las  posibles  palabras  a  construir  con  las   letras   letras son: descripción: Dadas ciertas letras en una cadena de caracteres (sin importar su orden), el comando debe presentar en pantalla todas las posibles palabras válidas a construir, indicando la longitud de cada una y la puntuación que se puede obtener con cada una. En las letras de la cadena de caracteres, puede admitirse un único símbolo comodín (?), el cual representará una letra desconocida y permitirá generar mayores posibilidades de palabras a construir. Para este propósito, el comando debe hacer uso del grafo de palabras construído con el comando grafo_de_palabras.
 */
-class Scrabble
+class ScrabbleClass
 {
     //RECORDAR
     // ayuda -> help
@@ -107,8 +110,8 @@ class Scrabble
     // posibles_palabras -> possible_words
 
     //Entrega 0
-    /*
-    - La implementación de la clase Scrabble con cabecera y archivo de implementación no está correctamente hecha. Los dos archivos deberían llamarse igual que la clase, sólo difieren en la extensión. Y la extensión del archivo de implementación debería ser cxx o cpp, pues no se está haciendo uso de plantillas (que es cuando se usa el hxx).
+    /*o
+    - La implementación de la clase ScrabbleClass con cabecera y archivo de implementación no está correctamente hecha. Los dos archivos deberían llamarse igual que la clase, sólo difieren en la extensión. Y la extensión del archivo de implementación debería ser cxx o cpp, pues no se está haciendo uso de plantillas (que es cuando se usa el hxx).
     - Se generan varios warnings, un par relacionados con un delete que no se hace correctamente y otros por conversión de cadenas de c
     caracteres literales a char*.
     - Para el comando posibles_palabras, a pesar de que lo llamo con su parámetro, me dice que es un comando inválido.
@@ -128,5 +131,5 @@ class Scrabble
         char* word_graph();
         char* possible_words(char* characters);
 };
-char *decide(Scrabble *obj, char *input);
+char *decide(ScrabbleClass *obj, char *input);
 #endif

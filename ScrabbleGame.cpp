@@ -4,8 +4,8 @@ const int MAX = 2048;
 using namespace std;
 int main()
 {
-    // Creating the Scrabble object, where you play the game
-    Scrabble *object = new Scrabble;
+    // Creating the ScrabbleClass object, where you play the game
+    ScrabbleClass *object = new ScrabbleClass;
     // Creating a variable where to save input data
     char *input;
     while (true)
