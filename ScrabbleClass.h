@@ -122,14 +122,18 @@ class ScrabbleClass
     */
 
 private:
-    bool check_caracter(std::string);
-    std::string inverse_caracters(std::string);
+    int sumScore(char*);
+    bool check_character(std::string);
+    bool find_in_dictionaries(std::string word,std::list<std::string> list);
+    std::string inverse_characters(std::string);
     std::string file_name;
     std::list<std::string> dictionary;
+    std::list<std::string> inverse_dictionary;
     TreeClass tree;
     GraphClass graph;
 
 public:
+
     char *help(void);
     char *help(char *command);
     char *start(char *archive_name);

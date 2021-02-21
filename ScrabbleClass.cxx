@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <ctype.h>
 #include "ScrabbleClass.h"
-#define MAXBUFFER 1024
+#define MAXBUFFER 2048
 using namespace std;
 
 // Function that shows all available functions
@@ -69,7 +69,7 @@ char *ScrabbleClass::start(char *archive_name)
             while (!file.eof())
             {
                 getline(file, line);
-                if (this->check_caracter(line))
+                if (this->check_character(line))
                     this->dictionary.push_back(line);
                 else
                     strcat(retorno, "no se agrego una palabra ya que contiene caracteres invalido(s)\n");
@@ -87,8 +87,7 @@ char *ScrabbleClass::start(char *archive_name)
         strcpy(retorno, "El diccionario ya ha sido inicializado\n");
     return retorno;
 }
-
-bool ScrabbleClass::check_caracter(std::string line)
+bool ScrabbleClass::check_character(std::string line)
 {
     char *txt = new char[strlen(line.c_str())];
     strcpy(txt, line.c_str());
@@ -100,7 +99,7 @@ bool ScrabbleClass::check_caracter(std::string line)
     return true;
 }
 
-std::string ScrabbleClass::inverse_caracters(std::string line)
+std::string ScrabbleClass::inverse_characters(std::string line)
 {
     std::string retorno;
     for (int i = strlen(line.c_str()) - 1; i >= 0; i--)
@@ -124,10 +123,10 @@ char *ScrabbleClass::inverse_start(char *archive_name)
             while (!file.eof())
             {
                 getline(file, line);
-                if (this->check_caracter(line))
+                if (this->check_character(line))
                 {
-                    std::string inversedLine = this->inverse_caracters(line);
-                    this->dictionary.push_back(inversedLine);
+                    std::string inversedLine = this->inverse_characters(line);
+                    this->inverse_dictionary.push_back(inversedLine);
                 }
                 else
                     strcat(retorno, "no se agrego una palabra ya que contiene caracteres invalido(s)\n");
@@ -148,10 +147,88 @@ char *ScrabbleClass::inverse_start(char *archive_name)
 
 char *ScrabbleClass::score(char *word)
 {
-    char *retorno = this->help("puntaje");
-    return retorno;
+    std::string palabra, retorno;
+    palabra.assign(word);
+    char *retorn = new char[MAXBUFFER];
+
+    if (this->find_in_dictionaries(word, this->dictionary) && this->find_in_dictionaries(this->inverse_characters(word), this->inverse_dictionary))
+    {
+        retorno = "La palabra tiene un puntaje de " + std::to_string(sumScore(word));
+        strcpy(retorn, retorno.c_str());
+        return retorn;
+    }
+    retorno = "La palabra no existe en el diccionario\n";
+    strcpy(retorn, retorno.c_str());
+    return retorn;
 }
 
+bool ScrabbleClass::find_in_dictionaries(std::string word, std::list<std::string> list)
+{
+    std::list<std::string>::iterator listI;
+    for (listI = list.begin(); listI != list.end(); listI++)
+    {
+        if (*listI == word)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+int ScrabbleClass::sumScore(char *word)
+{
+    int score = 0;
+    for (int i = 0; i < strlen(word); i++)
+    {
+        switch (std::toupper(word[i]))
+        {
+        case 'E':
+        case 'A':
+        case 'I':
+        case 'O':
+        case 'N':
+        case 'R':
+        case 'T':
+        case 'L':
+        case 'S':
+        case 'U':
+            score++;
+            break;
+        case 'D':
+        case 'G':
+            score += 2;
+            break;
+        case 'B':
+        case 'C':
+        case 'M':
+        case 'P':
+            score += 3;
+            break;
+        case 'F':
+        case 'H':
+        case 'V':
+        case 'W':
+        case 'Y':
+            score += 4;
+            break;
+        case 'K':
+            score += 5;
+            break;
+        case 'J':
+        case 'X':
+            score += 8;
+            break;
+        case 'Q':
+        case 'Z':
+            score += 10;
+            break;
+
+        default:
+            break;
+        }
+    }
+
+    return score;
+}
 void ScrabbleClass::exit()
 {
     // Exit command that ends execution
