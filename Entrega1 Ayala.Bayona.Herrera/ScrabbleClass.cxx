@@ -56,8 +56,6 @@ char *ScrabbleClass::help(char *command)
 //Reada a file in txt format and load the words in a list to initialize the dictionary
 char *ScrabbleClass::start(char *archive_name)
 {
-    if (!this->dictionary.size())
-        this->dictionary.clear();
     std::ifstream file;
     char *retorno = new char[MAXBUFFER];
     memset(retorno, 0, sizeof(retorno));
@@ -117,8 +115,6 @@ std::string ScrabbleClass::inverse_characters(std::string line)
 //Reads a file in format txt and loads the words in a list to initialize the inverse dictionary
 char *ScrabbleClass::inverse_start(char *archive_name)
 {
-    if (!this->inverse_dictionary.size())
-        this->inverse_dictionary.clear();
     std::ifstream file;
     char *retorno = new char[MAXBUFFER];
     memset(retorno, 0, sizeof(retorno));
