@@ -64,6 +64,7 @@ char *ScrabbleClass::start(char *archive_name)
         file.open(archive_name, std::ios::in);
         if (file.is_open())
         {
+            this->dictionary.clear();
             this->file_name = archive_name;
             std::string line;
             while (!file.eof())
@@ -71,8 +72,6 @@ char *ScrabbleClass::start(char *archive_name)
                 getline(file, line);
                 if (this->check_character(line))
                     this->dictionary.push_back(line);
-                else
-                    strcat(retorno, "no se agrego una palabra ya que contiene caracteres invalido(s)\n");
             }
             strcat(retorno, "El diccionario se ha inicializado correctamente");
         }
@@ -118,23 +117,18 @@ char *ScrabbleClass::inverse_start(char *archive_name)
     std::ifstream file;
     char *retorno = new char[MAXBUFFER];
     memset(retorno, 0, sizeof(retorno));
-    if (archive_name != this->file_name)
-    {
         file.open(archive_name, std::ios::in);
-        if (file.is_open())
+    if (file.is_open())
+    {
+        this->inverse_dictionary.clear();
+        std::string line;
+        while (!file.eof())
         {
-            this->file_name = archive_name;
-            std::string line;
-            while (!file.eof())
+            getline(file, line);
+            if (this->check_character(line))
             {
-                getline(file, line);
-                if (this->check_character(line))
-                {
-                    std::string inversedLine = this->inverse_characters(line);
-                    this->inverse_dictionary.push_back(inversedLine);
-                }
-                else
-                    strcat(retorno, "no se agrego una palabra ya que contiene caracteres invalido(s)\n");
+                std::string inversedLine = this->inverse_characters(line);
+                this->inverse_dictionary.push_back(inversedLine);
             }
         }
         strcat(retorno, "El diccionario invertido se ha inicializado correctamente");
