@@ -4,8 +4,8 @@ bool Diccionario::checkWord(std::string word)
 {
     std::list<Palabra>::iterator it = this->lista_palabras.begin();
     for (; it != this->lista_palabras.end(); it++)
-    {   
-         if ((*it).getWord() == word)
+    {
+        if ((*it).getWord() == word)
             return true;
     }
     return false;
@@ -15,7 +15,7 @@ std::string Diccionario::to_string()
     std::string retorno;
     std::list<Palabra>::iterator it = this->lista_palabras.begin();
     for (; it != this->lista_palabras.end(); it++)
-         retorno+=(*it).getWord()+"\n";
+        retorno += (*it).getWord() + "\n";
     return retorno;
 }
 Diccionario::Diccionario()
@@ -41,4 +41,4 @@ void Diccionario::add_word(Palabra word)
 void Diccionario::setFile_name(std::string archive_name)
 {
     this->file_name = file_name;
-}       
+}

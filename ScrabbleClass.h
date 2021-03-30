@@ -12,12 +12,11 @@ private:
     int sumScore(std::string word);
     bool find_in_dictionaries(std::string word);
     Diccionario dictionary;
-    Diccionario inverse_dictionary;
+    Diccionario inverse_dictionary; 
     TreeClass tree;
     GraphClass graph;
 
 public:
-
     Diccionario getDictionary();
     Diccionario getInverse_dictionary();
     std::string help(void);

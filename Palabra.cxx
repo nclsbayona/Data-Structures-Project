@@ -4,7 +4,7 @@ bool Palabra::check_character(std::string line)
 {
     for (int i = 0; i < line.size(); ++i)
     {
-        if (!((line[i]>64 && line[i]<92)||(line[i]>96 && line[i]<123)))
+        if (!((line[i] > 64 && line[i] < 92) || (line[i] > 96 && line[i] < 123)))
             return false;
     }
     return true;

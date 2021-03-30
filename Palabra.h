@@ -13,7 +13,7 @@ private:
     std::string inverse_characters(std::string line);
 
 public:
-    // Initializes word 1 normal order, 0 inverse order  
+    // Initializes word 1 normal order, 0 inverse order
     Palabra(std::string word, bool order);
     std::string getWord();
     std::string invertOrder();
