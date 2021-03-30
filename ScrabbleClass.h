@@ -12,7 +12,7 @@ private:
     int sumScore(std::string word);
     bool find_in_dictionaries(std::string word);
     Diccionario dictionary;
-    Diccionario inverse_dictionary; 
+    Diccionario inverse_dictionary;
     TreeClass tree;
     GraphClass graph;
 
@@ -31,6 +31,6 @@ public:
     std::string words_by_suffix(std::string suffix);
     std::string word_graph();
     std::string possible_words(std::string characters);
+    std::string decide(std::string input);
 };
-std::string decide(ScrabbleClass *obj, std::string input);
 #endif

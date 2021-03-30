@@ -17,10 +17,12 @@ int main()
         std::cin.getline(input, MAX, '\n');
 
         // Show response message
-        std::cout << decide(object, input) << std::endl;
+        std::cout << object->decide(input) << std::endl;
 
         // Free space
         delete[] input;
     }
+    // Unnecesary delete
+    delete object;
     return 0;
 }

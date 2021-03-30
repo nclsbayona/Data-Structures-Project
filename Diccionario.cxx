@@ -54,5 +54,5 @@ void Diccionario::add_word(Palabra word)
 }
 void Diccionario::setFile_name(std::string archive_name)
 {
-    this->file_name = file_name;
+    this->file_name = archive_name;
 }

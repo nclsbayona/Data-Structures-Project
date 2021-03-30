@@ -58,7 +58,7 @@ std::string ScrabbleClass::start(std::string archive_name)
         this->dictionary.clear();
     std::ifstream file;
     std::string retorno;
-    if (archive_name != this->dictionary.getFile_name())
+    if (strcmp((char *)archive_name.c_str(), (char *)this->dictionary.getFile_name().c_str()))
     {
         file.open(archive_name, std::ios::in);
         if (file.is_open())
@@ -97,7 +97,7 @@ std::string ScrabbleClass::inverse_start(std::string archive_name)
         this->inverse_dictionary.clear();
     std::ifstream file;
     std::string retorno;
-    if (archive_name != this->inverse_dictionary.getFile_name())
+    if (strcmp(archive_name.c_str(), this->inverse_dictionary.getFile_name().c_str()))
     {
         file.open(archive_name, std::ios::in);
         if (file.is_open())
@@ -266,7 +266,7 @@ std::string ScrabbleClass::words_by_prefix(std::string prefix)
 }
 
 // Function to decide which command to execute
-std::string decide(ScrabbleClass *obj, std::string input)
+std::string ScrabbleClass::decide(std::string input)
 {
     // Initializes return message
     std::string retorno;
@@ -274,19 +274,19 @@ std::string decide(ScrabbleClass *obj, std::string input)
 
     // Compares input with a value and returns its corresponding message
     if (input == "ayuda")
-        retorno = obj->help();
+        retorno = this->help();
     // Compares input with a value and returns its corresponding message
     else if (input == "salir")
-        obj->exit();
+        this->exit();
     // Compares input with a value and returns its corresponding message
     else if (input == "grafo_de_palabras")
-        retorno = obj->word_graph();
+        retorno = this->word_graph();
     // Compares input with a value and returns its corresponding message
     else if (input == "imprimir_diccionario")
-        retorno = obj->getDictionary().to_string();
+        retorno = this->getDictionary().to_string();
     // Compares input with a value and returns its corresponding message
     else if (input == "imprimir_diccionario_inverso")
-        retorno = obj->getInverse_dictionary().to_string();
+        retorno = this->getInverse_dictionary().to_string();
     else if (input.size() >= 7)
     {
         int k = 0;
@@ -301,25 +301,25 @@ std::string decide(ScrabbleClass *obj, std::string input)
         if (k == 2)
         {
             if (words[0] == "ayuda")
-                retorno = obj->help(words[1]);
+                retorno = this->help(words[1]);
             else if (words[0] == "posibles_palabras")
-                retorno = obj->possible_words(words[1]);
+                retorno = this->possible_words(words[1]);
             else if (words[0] == "inicializar")
-                retorno = obj->start(words[1]);
+                retorno = this->start(words[1]);
             else if (words[0] == "iniciar_inverso")
-                retorno = obj->inverse_start(words[1]);
+                retorno = this->inverse_start(words[1]);
             else if (words[0] == "puntaje")
-                retorno = obj->score(words[1]);
+                retorno = this->score(words[1]);
             else if (words[0] == "iniciar_arbol")
-                retorno = obj->start_tree(words[1]);
+                retorno = this->start_tree(words[1]);
             else if (words[0] == "iniciar_arbol_inverso")
-                retorno = obj->start_inverse_tree(words[1]);
+                retorno = this->start_inverse_tree(words[1]);
             else if (words[0] == "palabras_por_prefijo")
-                retorno = obj->words_by_prefix(words[1]);
+                retorno = this->words_by_prefix(words[1]);
             else if (words[0] == "palabras_por_sufijo")
-                retorno = obj->words_by_suffix(words[1]);
+                retorno = this->words_by_suffix(words[1]);
             else if (words[0] == "posibles_palabras")
-                retorno = obj->possible_words(words[1]);
+                retorno = this->possible_words(words[1]);
         }
     }
     return retorno;
