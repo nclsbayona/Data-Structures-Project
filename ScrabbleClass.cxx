@@ -75,6 +75,8 @@ std::string ScrabbleClass::start(std::string archive_name)
                     retorno += "No se agrego una palabra ya que contiene caracteres invalido(s) o esta vacia\n";
             }
             retorno += "El diccionario se ha inicializado correctamente";
+            //No duplicate entries
+            this->dictionary.make_unique();
         }
         else if (!file.is_open())
         {
@@ -109,9 +111,11 @@ std::string ScrabbleClass::inverse_start(std::string archive_name)
                 if (word.getWord() != "")
                     this->inverse_dictionary.add_word(word);
                 else
-                    retorno += "no se agrego una palabra ya que contiene caracteres invalido(s) o esta vacia\n";
+                    retorno += "No se agrego una palabra ya que contiene caracteres invalido(s) o esta vacia\n";
             }
             retorno += "El diccionario invertido se ha inicializado correctamente";
+            //No duplicate entries
+            this->inverse_dictionary.make_unique();
         }
         else if (!file.is_open())
         {
@@ -148,6 +152,8 @@ bool ScrabbleClass::find_in_dictionaries(std::string word)
 {
     Palabra pal(word, 1);
     if (this->dictionary.checkWord(pal.getWord()) && this->inverse_dictionary.checkWord(pal.invertOrder()))
+        return true;
+    if (this->dictionary.checkWord(pal.invertOrder()) && this->inverse_dictionary.checkWord(pal.getWord()))
         return true;
     return false;
 }

@@ -1,5 +1,6 @@
 #include "Diccionario.h"
 #include <fstream>
+#include <cstring>
 bool Diccionario::checkWord(std::string word)
 {
     std::list<Palabra>::iterator it = this->lista_palabras.begin();
@@ -9,6 +10,19 @@ bool Diccionario::checkWord(std::string word)
             return true;
     }
     return false;
+}
+bool Diccionario::compare(Palabra first, Palabra second)
+{
+    return !strcmp((char*)first.getWord().c_str(), (char*)second.getWord().c_str());
+}
+bool Diccionario::order(Palabra first, Palabra second)
+{
+    return strcmp((char*)first.getWord().c_str(), (char*)second.getWord().c_str())<0;
+}
+void Diccionario::make_unique()
+{
+    this->lista_palabras.sort(Diccionario::order);
+    this->lista_palabras.unique(Diccionario::compare);
 }
 std::string Diccionario::to_string()
 {
