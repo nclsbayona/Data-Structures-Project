@@ -1,7 +1,6 @@
 #include <cstdlib>
 #include <ctype.h>
 #include "ScrabbleClass.h"
-#define MAXBUFFER 2048
 using namespace std;
 
 // Function that shows all available functions
@@ -58,7 +57,7 @@ std::string ScrabbleClass::start(std::string archive_name)
         this->dictionary.clear();
     std::ifstream file;
     std::string retorno;
-    if (archive_name != this->dictionary.getFile_name())
+    if (strcmp((char*)archive_name.c_str(),(char*)this->dictionary.getFile_name().c_str()))
     {
         file.open(archive_name, std::ios::in);
         if (file.is_open())
@@ -80,7 +79,7 @@ std::string ScrabbleClass::start(std::string archive_name)
         {
             retorno += "El archivo ";
             retorno += archive_name;
-            retorno += " no existe o no puede ser leido";
+            retorno += "No existe o no puede ser leido";
         }
     }
     else
@@ -95,7 +94,7 @@ std::string ScrabbleClass::inverse_start(std::string archive_name)
         this->inverse_dictionary.clear();
     std::ifstream file;
     std::string retorno;
-    if (archive_name != this->inverse_dictionary.getFile_name())
+    if (strcmp((char*)archive_name.c_str(),(char*)this->inverse_dictionary.getFile_name().c_str()))
     {
         file.open(archive_name, std::ios::in);
         if (file.is_open())
@@ -109,7 +108,7 @@ std::string ScrabbleClass::inverse_start(std::string archive_name)
                 if (word.getWord() != "")
                     this->inverse_dictionary.add_word(word);
                 else
-                    retorno += "no se agrego una palabra ya que contiene caracteres invalido(s) o esta vacia\n";
+                    retorno += "No se agrego una palabra ya que contiene caracteres invalido(s) o esta vacia\n";
             }
             retorno += "El diccionario invertido se ha inicializado correctamente";
         }
@@ -148,6 +147,8 @@ bool ScrabbleClass::find_in_dictionaries(std::string word)
 {
     Palabra pal(word, 1);
     if (this->dictionary.checkWord(pal.getWord()) && this->inverse_dictionary.checkWord(pal.invertOrder()))
+        return true;
+    if (this->dictionary.checkWord(pal.invertOrder()) && this->inverse_dictionary.checkWord(pal.getWord()))
         return true;
     return false;
 }
