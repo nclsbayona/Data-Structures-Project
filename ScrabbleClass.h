@@ -14,6 +14,7 @@ private:
     Diccionario dictionary;
     Diccionario inverse_dictionary;
     TreeClass tree;
+    TreeClass inverse_tree;
     GraphClass graph;
 
 public:
@@ -33,4 +34,5 @@ public:
     std::string possible_words(std::string characters);
     std::string decide(std::string input);
 };
+
 #endif

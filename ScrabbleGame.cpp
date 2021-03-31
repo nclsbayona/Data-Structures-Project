@@ -12,13 +12,10 @@ int main()
         // Save space for the input
         input = new char[MAX];
         std::cout << "$ ";
-
         // Read input from cin
         std::cin.getline(input, MAX, '\n');
-
         // Show response message
         std::cout << object->decide(input) << std::endl;
-
         // Free space
         delete[] input;
     }
