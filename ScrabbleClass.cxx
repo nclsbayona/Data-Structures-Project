@@ -58,7 +58,7 @@ std::string ScrabbleClass::start(std::string archive_name)
         this->dictionary.clear();
     std::ifstream file;
     std::string retorno;
-    if (strcmp((char *)archive_name.c_str(), (char *)this->dictionary.getFile_name().c_str()))
+    if (archive_name != this->dictionary.getFile_name())
     {
         file.open(archive_name, std::ios::in);
         if (file.is_open())
@@ -75,8 +75,6 @@ std::string ScrabbleClass::start(std::string archive_name)
                     retorno += "No se agrego una palabra ya que contiene caracteres invalido(s) o esta vacia\n";
             }
             retorno += "El diccionario se ha inicializado correctamente";
-            //No duplicate entries
-            this->dictionary.make_unique();
         }
         else if (!file.is_open())
         {
@@ -97,7 +95,7 @@ std::string ScrabbleClass::inverse_start(std::string archive_name)
         this->inverse_dictionary.clear();
     std::ifstream file;
     std::string retorno;
-    if (strcmp(archive_name.c_str(), this->inverse_dictionary.getFile_name().c_str()))
+    if (archive_name != this->inverse_dictionary.getFile_name())
     {
         file.open(archive_name, std::ios::in);
         if (file.is_open())
@@ -111,11 +109,9 @@ std::string ScrabbleClass::inverse_start(std::string archive_name)
                 if (word.getWord() != "")
                     this->inverse_dictionary.add_word(word);
                 else
-                    retorno += "No se agrego una palabra ya que contiene caracteres invalido(s) o esta vacia\n";
+                    retorno += "no se agrego una palabra ya que contiene caracteres invalido(s) o esta vacia\n";
             }
             retorno += "El diccionario invertido se ha inicializado correctamente";
-            //No duplicate entries
-            this->inverse_dictionary.make_unique();
         }
         else if (!file.is_open())
         {
@@ -152,8 +148,6 @@ bool ScrabbleClass::find_in_dictionaries(std::string word)
 {
     Palabra pal(word, 1);
     if (this->dictionary.checkWord(pal.getWord()) && this->inverse_dictionary.checkWord(pal.invertOrder()))
-        return true;
-    if (this->dictionary.checkWord(pal.invertOrder()) && this->inverse_dictionary.checkWord(pal.getWord()))
         return true;
     return false;
 }
@@ -218,13 +212,86 @@ void ScrabbleClass::exit()
     // Exit command that ends execution
     std::exit(0);
 }
-
-std::string ScrabbleClass::start_tree(std::string archive_name)
+std::string ScrabbleClass::start_tree(std::string file_name)
 {
-    std::string retorno = this->help("iniciar_arbol");
+    ifstream file;
+    std::string retorno;
+    file.open(file_name, std::ios::in);
+    bool flag = false;
+    if (file_name != this->tree.getFile_name())
+    {
+        if (file.is_open())
+        {
+            this->tree.setFile_name(file_name);
+            std::string line;
+            while (!file.eof())
+            {
+                getline(file, line);
+                //Normal order
+                Palabra word(line, 1);
+                std::string tmp = word.getWord();
+                char key = tmp[0];
+                if (word.getWord() != "")
+                    this->tree.addWord(key, word.getWord());
+                else
+                    flag = true;
+            }
+            if (!flag)
+                retorno += "Se ha inicializado correctamente el arbol";
+            else
+                retorno += "No se agrego una(s) palabra(s) ya que contiene caracteres invalido(s) o esta vacia\nEl arbol se ha inicializado correctamente";
+        }
+        else if (!file.is_open())
+        {
+            retorno += "El archivo ";
+            retorno += file_name;
+            retorno += " no existe o no puede ser leido";
+        }
+    }
+    else
+        retorno += "El arbol ya ha sido inicializado con el mismo nombre\n";
     return retorno;
 }
-
+std::string ScrabbleClass::start_inverse_tree(std::string file_name)
+{
+    ifstream file;
+    std::string retorno;
+    file.open(file_name, std::ios::in);
+    bool flag = false;
+    if (file_name != this->inverse_tree.getFile_name())
+    {
+        if (file.is_open())
+        {
+            this->inverse_tree.setFile_name(file_name);
+            std::string line;
+            while (!file.eof())
+            {
+                getline(file, line);
+                //Normal order
+                Palabra word(line, 0);
+                std::string tmp = word.getWord();
+                char key = tmp[0];
+                if (word.getWord() != "")
+                    this->inverse_tree.addWord(key, word.getWord());
+                else
+                    flag = true;
+            }
+            if (!flag)
+                retorno += "Se ha inicializado correctamente el arbol";
+            else
+                retorno += "No se agrego una(s) palabra(s) ya que contiene caracteres invalido(s) o esta vacia\nEl arbol inverso se ha inicializado correctamente";
+        }
+        else if (!file.is_open())
+        {
+            retorno += "El archivo ";
+            retorno += file_name;
+            retorno += " no existe o no puede ser leido";
+        }
+    }
+    else
+        retorno += "El arbol inverso ya ha sido inicializado con el mismo nombre\n";
+    return retorno;
+}
 std::string ScrabbleClass::possible_words(std::string letras)
 {
     std::string retorno = this->help("palabras_posibles");
@@ -251,12 +318,6 @@ Diccionario ScrabbleClass::getInverse_dictionary()
 Diccionario ScrabbleClass::getDictionary()
 {
     return this->dictionary;
-}
-
-std::string ScrabbleClass::start_inverse_tree(std::string archive_name)
-{
-    std::string retorno = this->help("iniciar_arbol_inverso");
-    return retorno;
 }
 
 std::string ScrabbleClass::words_by_prefix(std::string prefix)
@@ -287,6 +348,16 @@ std::string ScrabbleClass::decide(std::string input)
     // Compares input with a value and returns its corresponding message
     else if (input == "imprimir_diccionario_inverso")
         retorno = this->getInverse_dictionary().to_string();
+    else if (input == "imprimir_arbol")
+    {
+        retorno = " ";
+        this->tree.printMap();
+    }
+    else if (input == "imprimir_arbol_inverso")
+    {
+        retorno = " ";
+        this->inverse_tree.printMap();
+    }
     else if (input.size() >= 7)
     {
         int k = 0;

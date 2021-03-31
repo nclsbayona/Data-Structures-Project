@@ -15,9 +15,7 @@ private:
 public:
     // Initializes word 1 normal order, 0 inverse order
     Palabra(std::string word, bool order);
-    //Return word
     std::string getWord();
-    //Word in inverse order
     std::string invertOrder();
 };
 #endif
