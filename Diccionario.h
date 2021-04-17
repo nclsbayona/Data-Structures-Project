@@ -27,5 +27,9 @@ public:
     int size();
     //Return the file name
     std::string getFile_name();
+    //Returns a list with all words that have the specified preffix in the dictionary
+    std::list<std::string> wordsByPrefix(std::string prefix);
+    //Returns a list with all words that have the specified suffix in the dictionary
+    std::list<std::string> wordsBySuffix(std::string suffix);
 };
 #endif

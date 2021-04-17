@@ -299,12 +299,6 @@ std::string ScrabbleClass::possible_words(std::string letras)
     return retorno;
 }
 
-std::string ScrabbleClass::words_by_suffix(std::string suffix)
-{
-    std::string retorno = this->help("palabras_posibles");
-    return retorno;
-}
-
 std::string ScrabbleClass::word_graph()
 {
     std::string retorno = this->help("grafo_de_palabras");
@@ -327,6 +321,11 @@ std::string ScrabbleClass::words_by_prefix(std::string prefix)
     return retorno;
 }
 
+std::string ScrabbleClass::words_by_suffix(std::string suffix)
+{
+    std::string retorno = this->help("palabras_por_sufijo");
+    return retorno;
+}
 // Function to decide which command to execute
 std::string ScrabbleClass::decide(std::string input)
 {
@@ -350,15 +349,9 @@ std::string ScrabbleClass::decide(std::string input)
     else if (input == "imprimir_diccionario_inverso")
         retorno = this->getInverse_dictionary().to_string();
     else if (input == "imprimir_arbol")
-    {
-        retorno = " ";
-        this->tree.printMap();
-    }
+        retorno = this->tree.printMap();
     else if (input == "imprimir_arbol_inverso")
-    {
-        retorno = " ";
-        this->inverse_tree.printMap();
-    }
+        retorno = this->inverse_tree.printMap();
     else if (input.size() >= 7)
     {
         int k = 0;

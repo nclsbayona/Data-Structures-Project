@@ -12,7 +12,7 @@ private:
 
 public:
     TreeClass();
-    void printMap();
+    std::string printMap();
     std::map<char, std::set<std::string>> getTree();
     void addWord(char, std::string);
     std::string getFile_name();

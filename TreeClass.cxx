@@ -1,17 +1,28 @@
 #include "TreeClass.h"
-void TreeClass::printMap()
+std::string TreeClass::printMap()
 {
-    std::cout << "Printing..." << std::endl;
+    std::string ret="Printing...\n";
     std::map<char, std::set<std::string>>::iterator it = this->words.begin();
     std::set<std::string>::iterator it2;
+    int tam;
     for (; it != this->words.end(); ++it)
     {
-        std::cout << it->first << " - ";
+        tam=it->second.size();
+        if (tam==0)
+            continue;
+        ret+= it->first;
+        ret+= " - ";
         it2 = it->second.begin();
-        for (; it2 != it->second.end(); ++it2)
-            std::cout << *it2 << ",";
-        std::cout << std::endl;
+        for (; it2 != it->second.end(); ++it2){
+            ret+=(*it2);
+            tam-=1;
+            //If there's one more, add ','
+            if (tam>0)
+                ret+=",";
+        }
+        ret+='\n';
     }
+    return ret;
 }
 TreeClass::TreeClass()
 {

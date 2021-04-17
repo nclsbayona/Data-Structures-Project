@@ -17,5 +17,7 @@ public:
     Palabra(std::string word, bool order);
     std::string getWord();
     std::string invertOrder();
+    bool suffixInWord(std::string suffix); 
+    bool prefixInWord(std::string prefix);
 };
 #endif
