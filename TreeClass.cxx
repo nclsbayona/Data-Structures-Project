@@ -74,7 +74,7 @@ std::set<std::string> TreeClass::wordsByPrefix(std::string prefix)
         possible = true;
         wordTam = (*it).size();
         if (wordTam > tam){
-            for (int i = 1; i < tam && possible; ++tam){
+            for (int i = 1; i < tam && possible; ++i){
                 word=*it;
                 if (word[i]!=prefix[i])
                     possible = false;
@@ -88,4 +88,32 @@ std::set<std::string> TreeClass::wordsByPrefix(std::string prefix)
 //Returns a set with all words that have the specified suffix in the dictionary
 std::set<std::string> TreeClass::wordsBySuffix(std::string suffix)
 {
+    typedef std::set<std::string> set;
+    int tam = suffix.size(), wordTam;
+    //Reverse suffix
+    std::string copy=suffix;
+    for (int i=0; i<tam; ++i)
+        suffix[i]=copy[tam-1-i];
+    //
+    set words = this->words[suffix[0]], words2;
+    set::iterator it = words.begin();
+    bool possible;
+    std::string word;
+    for (; it != words.end(); ++it)
+    {
+        possible = true;
+        wordTam = (*it).size();
+        if (wordTam > tam){
+            for (int i = 1; i < tam && possible; ++i){
+                word=*it;
+                if (word[i]!=suffix[i]){
+                    std::cout<<word[i]<<' '<<suffix[i]<<'\n';
+                    possible = false;
+                }
+            }
+        }
+        if (possible)
+            words2.insert((*it));
+    }
+    return words2;
 }

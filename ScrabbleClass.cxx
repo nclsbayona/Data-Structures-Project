@@ -337,7 +337,29 @@ std::string ScrabbleClass::words_by_prefix(std::string prefix)
 
 std::string ScrabbleClass::words_by_suffix(std::string suffix)
 {
-    std::string retorno = this->help("palabras_por_sufijo");
+    std::string retorno = "Sufijo "+suffix+" no pudo encontrarse en el diccionario (arbol).";
+    typedef std::set<std::string> set;
+    set my_set=this->inverse_tree.wordsBySuffix(suffix);
+    std::string copy;
+    int tam=my_set.size(), tam2;
+    if (tam>0){
+        set::iterator it=my_set.begin();
+        retorno="Las palabras que inician con este sufijo "+suffix+" son:\n";
+        for (; it != my_set.end(); ++it)
+        {
+            /* //Reverse word
+            copy="";
+            tam2=(*it).size();
+            for (int i=0; i<tam2; ++i)
+                copy+=(*it)[tam2-1-i];
+            retorno+=copy; */
+            // If you want it reversed, comment the next line and uncomment the above block
+            retorno+=(*it);
+            if (--tam>0)
+                retorno+=',';
+            retorno+='\n';
+        }
+    }
     return retorno;
 }
 // Function to decide which command to execute
