@@ -18,5 +18,9 @@ public:
     std::string getFile_name();
     void setFile_name(std::string);
     void setTree(std::map<char, std::set<std::string>> pal);
+    //Returns a set with all words that have the specified preffix in the dictionary
+    std::set<std::string> wordsByPrefix(std::string prefix);
+    //Returns a set with all words that have the specified suffix in the dictionary
+    std::set<std::string> wordsBySuffix(std::string suffix);
 };
 #endif

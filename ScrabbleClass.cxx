@@ -317,7 +317,21 @@ Diccionario ScrabbleClass::getDictionary()
 
 std::string ScrabbleClass::words_by_prefix(std::string prefix)
 {
-    std::string retorno = this->help("palabras_por_prefijo");
+    std::string retorno = "Prefijo "+prefix+" no pudo encontrarse en el diccionario (arbol).";
+    typedef std::set<std::string> set;
+    set my_set=this->tree.wordsByPrefix(prefix);
+    int tam=my_set.size();
+    if (tam>0){
+        set::iterator it=my_set.begin();
+        retorno="Las palabras que inician con este prefijo "+prefix+" son:\n";
+        for (; it != my_set.end(); ++it)
+        {
+            retorno+=(*it);
+            if (--tam>0)
+                retorno+=',';
+            retorno+='\n';
+        }
+    }
     return retorno;
 }
 

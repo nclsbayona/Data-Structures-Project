@@ -1,26 +1,27 @@
 #include "TreeClass.h"
 std::string TreeClass::printMap()
 {
-    std::string ret="Printing...\n";
+    std::string ret = "Printing...\n";
     std::map<char, std::set<std::string>>::iterator it = this->words.begin();
     std::set<std::string>::iterator it2;
     int tam;
     for (; it != this->words.end(); ++it)
     {
-        tam=it->second.size();
-        if (tam==0)
+        tam = it->second.size();
+        if (tam == 0)
             continue;
-        ret+= it->first;
-        ret+= " - ";
+        ret += it->first;
+        ret += " - ";
         it2 = it->second.begin();
-        for (; it2 != it->second.end(); ++it2){
-            ret+=(*it2);
-            tam-=1;
-            //If there's one more, add ','
-            if (tam>0)
-                ret+=",";
+        for (; it2 != it->second.end(); ++it2)
+        {
+            ret += (*it2);
+            tam -= 1;
+            //If there's at least one more, add ','
+            if (tam > 0)
+                ret += ",";
         }
-        ret+='\n';
+        ret += '\n';
     }
     return ret;
 }
@@ -58,4 +59,33 @@ void TreeClass::addWord(char key, std::string value)
             it->second.insert(value);
         }
     }
+}
+//Returns a set with all words that have the specified preffix in the dictionary
+std::set<std::string> TreeClass::wordsByPrefix(std::string prefix)
+{
+    typedef std::set<std::string> set;
+    set words = this->words[prefix[0]], words2;
+    set::iterator it = words.begin();
+    int tam = prefix.size(), wordTam;
+    bool possible;
+    std::string word;
+    for (; it != words.end(); ++it)
+    {
+        possible = true;
+        wordTam = (*it).size();
+        if (wordTam > tam){
+            for (int i = 1; i < tam && possible; ++tam){
+                word=*it;
+                if (word[i]!=prefix[i])
+                    possible = false;
+            }
+        }
+        if (possible)
+            words2.insert((*it));
+    }
+    return words2;
+}
+//Returns a set with all words that have the specified suffix in the dictionary
+std::set<std::string> TreeClass::wordsBySuffix(std::string suffix)
+{
 }
