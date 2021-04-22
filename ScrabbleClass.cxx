@@ -310,6 +310,14 @@ std::string ScrabbleClass::word_graph()
     return retorno;
 }
 
+Tree ScrabbleClass::getTree()
+{
+    return this->tree;
+}
+Tree ScrabbleClass::getInverseTree()
+{
+    return this->inverse_tree;
+}
 Diccionario ScrabbleClass::getInverse_dictionary()
 {
     return this->inverse_dictionary;

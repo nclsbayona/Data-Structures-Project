@@ -20,6 +20,8 @@ private:
 public:
     Diccionario getDictionary();
     Diccionario getInverse_dictionary();
+    Tree getTree();
+    Tree getInverseTree();
     std::string help(void);
     std::string help(std::string command);
     std::string start(std::string archive_name);
