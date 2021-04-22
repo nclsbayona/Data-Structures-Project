@@ -56,7 +56,7 @@ std::vector<std::string> TreeClass::wordsByPrefix(std::string prefix)
     std::vector<std::string> words;
     bool end = false;
     NodoClass *nodo = this->head;
-    if (nodo->getData() == prefix[0] && !nodo->isEnd())
+    if (nodo->getData() == prefix[0])
     {
         //Prefix might go in this tree
         for (int i = 1; i < tam && !end; ++i)
