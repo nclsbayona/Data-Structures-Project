@@ -37,5 +37,4 @@ public:
     std::string possible_words(std::string characters);
     std::string decide(std::string input);
 };
-
 #endif
