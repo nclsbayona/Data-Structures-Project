@@ -34,6 +34,8 @@ std::string Palabra::invertOrder()
 }
 bool Palabra::prefixInWord(std::string prefix){
     int size=prefix.size();
+    if (word.size()<size)
+        return false;
     for (int i=0; i<size; ++i){
         if (this->word[i]!=prefix[i])
             return false;
@@ -42,6 +44,8 @@ bool Palabra::prefixInWord(std::string prefix){
 }
 bool Palabra::suffixInWord(std::string suffix){
     int size=suffix.size(), word_size=this->word.size();
+    if (word_size<size)
+        return false;
     for (int i=word_size-size, j=0 ; i<word_size && j<size; ++i, ++j){
         if (this->word[i]!=suffix[j])
             return false;
