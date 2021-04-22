@@ -22,12 +22,12 @@ public:
     Diccionario getInverse_dictionary();
     Tree getTree();
     Tree getInverseTree();
+    std::string wordToLower(std::string word);
     std::string help(void);
     std::string help(std::string command);
     std::string start(std::string archive_name);
     std::string inverse_start(std::string archive_name);
     std::string score(std::string word);
-    std::string wordToLower(std::string word);
     void exit();
     std::string start_tree(std::string archive_name);
     std::string start_inverse_tree(std::string archive_name);
