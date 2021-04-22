@@ -50,6 +50,13 @@ std::string ScrabbleClass::help(std::string command)
     return cmd_help;
 }
 
+//Returns a word in only lower_case
+std::string ScrabbleClass::wordToLower(std::string word)
+{
+    for(int i=0; i<word.size(); i++)
+        word[i] = tolower(word[i]);
+    return word;
+}
 //Reads a file in txt format and load the words in a list to initialize the dictionary
 std::string ScrabbleClass::start(std::string archive_name)
 {
@@ -219,6 +226,7 @@ std::string ScrabbleClass::start_tree(std::string file_name)
     std::string retorno;
     file.open(file_name, std::ios::in);
     bool flag = false;
+
     if (file_name != this->tree.getFile_name())
     {
         if (file.is_open())
@@ -228,12 +236,10 @@ std::string ScrabbleClass::start_tree(std::string file_name)
             while (!file.eof())
             {
                 getline(file, line);
-                //Normal order
                 Palabra word(line, 1);
                 std::string tmp = word.getWord();
-                char key = tmp[0];
                 if (word.getWord() != "")
-                    this->tree.addWord(key, word.getWord());
+                    this->tree.addDataToTree(this->wordToLower(tmp));
                 else
                     flag = true;
             }
@@ -271,9 +277,8 @@ std::string ScrabbleClass::start_inverse_tree(std::string file_name)
                 //Normal order
                 Palabra word(line, 0);
                 std::string tmp = word.getWord();
-                char key = tmp[0];
                 if (word.getWord() != "")
-                    this->inverse_tree.addWord(key, word.getWord());
+                    this->inverse_tree.addDataToTree(this->wordToLower(tmp));
                 else
                     flag = true;
             }
@@ -318,11 +323,11 @@ Diccionario ScrabbleClass::getDictionary()
 std::string ScrabbleClass::words_by_prefix(std::string prefix)
 {
     std::string retorno = "Prefijo "+prefix+" no pudo encontrarse en el diccionario (arbol).";
-    typedef std::set<std::string> set;
-    set my_set=this->tree.wordsByPrefix(prefix);
+    typedef std::vector<std::string> vector;
+    vector my_set=this->tree.wordsByPrefix(prefix);
     int tam=my_set.size();
     if (tam>0){
-        set::iterator it=my_set.begin();
+        vector::iterator it=my_set.begin();
         retorno="Las palabras que inician con este prefijo "+prefix+" son:\n";
         for (; it != my_set.end(); ++it)
         {
@@ -338,23 +343,23 @@ std::string ScrabbleClass::words_by_prefix(std::string prefix)
 std::string ScrabbleClass::words_by_suffix(std::string suffix)
 {
     std::string retorno = "Sufijo "+suffix+" no pudo encontrarse en el diccionario (arbol).";
-    typedef std::set<std::string> set;
-    set my_set=this->inverse_tree.wordsBySuffix(suffix);
+    typedef std::vector<std::string> vector;
+    vector my_vec=this->inverse_tree.wordsBySuffix(suffix);
     std::string copy;
-    int tam=my_set.size(), tam2;
+    int tam=my_vec.size(), tam2;
     if (tam>0){
-        set::iterator it=my_set.begin();
-        retorno="Las palabras que inician con este sufijo "+suffix+" son:\n";
-        for (; it != my_set.end(); ++it)
+        vector::iterator it=my_vec.begin();
+        retorno="Las palabras que terminan con este sufijo "+suffix+" son:\n";
+        for (; it != my_vec.end(); ++it)
         {
-            /* //Reverse word
+            //Reverse word
             copy="";
             tam2=(*it).size();
             for (int i=0; i<tam2; ++i)
                 copy+=(*it)[tam2-1-i];
-            retorno+=copy; */
+            retorno+=copy;
             // If you want it reversed, comment the next line and uncomment the above block
-            retorno+=(*it);
+            //retorno+=(*it);
             if (--tam>0)
                 retorno+=',';
             retorno+='\n';
@@ -384,10 +389,12 @@ std::string ScrabbleClass::decide(std::string input)
     // Compares input with a value and returns its corresponding message
     else if (input == "imprimir_diccionario_inverso")
         retorno = this->getInverse_dictionary().to_string();
+    // Compares input with a value and returns its corresponding message
     else if (input == "imprimir_arbol")
-        retorno = this->tree.printMap();
+        retorno = this->tree.printTree();
+    // Compares input with a value and returns its corresponding message
     else if (input == "imprimir_arbol_inverso")
-        retorno = this->inverse_tree.printMap();
+        retorno = this->inverse_tree.printTree();
     else if (input.size() >= 7)
     {
         int k = 0;

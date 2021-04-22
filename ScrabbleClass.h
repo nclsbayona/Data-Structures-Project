@@ -4,8 +4,8 @@
 #include <cstring>
 #include "Diccionario.h"
 #include <fstream>
-#include "TreeClass.h"
-#include "GraphClass.h"
+#include "Tree.h"
+//#include "GraphClass.h"
 class ScrabbleClass
 {
 private:
@@ -13,9 +13,9 @@ private:
     bool find_in_dictionaries(std::string word);
     Diccionario dictionary;
     Diccionario inverse_dictionary;
-    TreeClass tree;
-    TreeClass inverse_tree;
-    GraphClass graph;
+    Tree tree;
+    Tree inverse_tree;
+    //GraphClass graph;
 
 public:
     Diccionario getDictionary();
@@ -25,6 +25,7 @@ public:
     std::string start(std::string archive_name);
     std::string inverse_start(std::string archive_name);
     std::string score(std::string word);
+    std::string wordToLower(std::string word);
     void exit();
     std::string start_tree(std::string archive_name);
     std::string start_inverse_tree(std::string archive_name);

@@ -1,119 +1,125 @@
 #include "TreeClass.h"
-std::string TreeClass::printMap()
+#include <iostream>
+TreeClass::TreeClass(char head_data, bool end)
 {
-    std::string ret = "Printing...\n";
-    std::map<char, std::set<std::string>>::iterator it = this->words.begin();
-    std::set<std::string>::iterator it2;
-    int tam;
-    for (; it != this->words.end(); ++it)
+    //In case word is a single character
+    this->head = new NodoClass(head_data, end);
+}
+
+NodoClass *TreeClass::getHead()
+{
+    return this->head;
+}
+
+bool TreeClass::addChild(std::string data)
+{
+    bool ret = false;
+    if (!this->wordEnd(data))
     {
-        tam = it->second.size();
-        if (tam == 0)
-            continue;
-        ret += it->first;
-        ret += " - ";
-        it2 = it->second.begin();
-        for (; it2 != it->second.end(); ++it2)
+        bool end;
+        NodoClass *node = this->head;
+        if (node->getData() == data[0])
         {
-            ret += (*it2);
-            tam -= 1;
-            //If there's at least one more, add ','
-            if (tam > 0)
-                ret += ",";
-        }
-        ret += '\n';
-    }
-    return ret;
-}
-TreeClass::TreeClass()
-{
-    this->file_name = " ";
-    for (int i = 65; i <= 89; ++i)
-        words[i];
-    for (int i = 97; i <= 122; ++i)
-        words[i];
-}
-std::map<char, std::set<std::string>> TreeClass::getTree()
-{
-    return this->words;
-}
-void TreeClass::setTree(std::map<char, std::set<std::string>> pal)
-{
-    this->words = pal;
-}
-void TreeClass::setFile_name(std::string name)
-{
-    this->file_name = name;
-}
-std::string TreeClass::getFile_name()
-{
-    return this->file_name;
-}
-void TreeClass::addWord(char key, std::string value)
-{
-    std::map<char, std::set<std::string>>::iterator it = this->words.begin();
-    for (; it != this->words.end(); it++)
-    {
-        if (it->first == key)
-        {
-            it->second.insert(value);
-        }
-    }
-}
-//Returns a set with all words that have the specified preffix in the dictionary
-std::set<std::string> TreeClass::wordsByPrefix(std::string prefix)
-{
-    typedef std::set<std::string> set;
-    set words = this->words[prefix[0]], words2;
-    set::iterator it = words.begin();
-    int tam = prefix.size(), wordTam;
-    bool possible;
-    std::string word;
-    for (; it != words.end(); ++it)
-    {
-        possible = true;
-        wordTam = (*it).size();
-        if (wordTam > tam){
-            for (int i = 1; i < tam && possible; ++i){
-                word=*it;
-                if (word[i]!=prefix[i])
-                    possible = false;
-            }
-        }
-        if (possible)
-            words2.insert((*it));
-    }
-    return words2;
-}
-//Returns a set with all words that have the specified suffix in the dictionary
-std::set<std::string> TreeClass::wordsBySuffix(std::string suffix)
-{
-    typedef std::set<std::string> set;
-    int tam = suffix.size(), wordTam;
-    //Reverse suffix
-    std::string copy=suffix;
-    for (int i=0; i<tam; ++i)
-        suffix[i]=copy[tam-1-i];
-    //
-    set words = this->words[suffix[0]], words2;
-    set::iterator it = words.begin();
-    bool possible;
-    std::string word;
-    for (; it != words.end(); ++it)
-    {
-        possible = true;
-        wordTam = (*it).size();
-        if (wordTam > tam){
-            for (int i = 1; i < tam && possible; ++i){
-                word=*it;
-                if (word[i]!=suffix[i]){
-                    std::cout<<word[i]<<' '<<suffix[i]<<'\n';
-                    possible = false;
+            ret = true;
+            int size = data.size();
+            for (int i = 1; i < size; ++i)
+            {
+                if (node->childExists(data[i]))
+                {
+                    node = node->childExists(data[i]);
+                }
+                else
+                {
+                    //Decide if it's or not end at the moment
+                    end = (i < size - 1) ? 0 : 1;
+                    node = node->addChild(data[i], end);
                 }
             }
         }
-        if (possible)
-            words2.insert((*it));
     }
-    return words2;
+    else
+        ret = true;
+    return ret;
+}
+
+std::string TreeClass::printTree()
+{
+    if (this->head)
+        return "Tree\n" + this->head->print() + "\n";
+    else
+        return "Tree\n";
+}
+
+std::vector<std::string> TreeClass::wordsByPrefix(std::string prefix)
+{
+    int tam = prefix.size();
+    std::vector<std::string> words;
+    bool end = false;
+    NodoClass *nodo = this->head;
+    if (nodo->getData() == prefix[0] && !nodo->isEnd())
+    {
+        //Prefix might go in this tree
+        for (int i = 1; i < tam && !end; ++i)
+        {
+            nodo = nodo->childExists(prefix[i]);
+            if (!nodo)
+                end = true;
+        }
+        //I know that if it hasn't finished, it's because the prefix exists, therefore, I have to addWords
+        if (!end)
+            nodo->childWords(prefix.substr(0, tam - 1), words);
+    }
+    return words;
+}
+
+std::vector<std::string> TreeClass::wordsBySuffix(std::string suffix)
+{
+    int tam = suffix.size();
+    std::vector<std::string> words;
+    bool end = false;
+    //Reverse suffix
+    std::string copy = suffix;
+    for (int i = 0; i < tam; ++i)
+        suffix[i] = copy[tam - 1 - i];
+    //
+    NodoClass *nodo = this->head;
+    if (nodo->getData() == suffix[0])
+    {
+        //Suffix might go in this tree
+        for (int i = 1; i < tam && !end; ++i)
+        {
+            nodo = nodo->childExists(suffix[i]);
+            if (!nodo)
+                end = true;
+        }
+        //I know that if it hasn't finished, it's because the suffix exists, therefore, I have to addWords
+        if (!end)
+            nodo->childWords(suffix.substr(0, tam - 1), words);
+    }
+    return words;
+}
+
+bool TreeClass::wordEnd(std::string word)
+{
+    //Iterate through tree looking for word
+    //If word exists, end=true
+    NodoClass*  node = this->head;
+    bool possible = true;
+    int i = 0;
+    std::string acum = "";
+    if (node && node->getData() == word[i])
+    {
+        acum += node->getData();
+        while (acum != word && possible)
+        {
+            node = node->childExists(word[++i]);
+            if (node == NULL)
+                possible = false;
+            else
+                acum += node->getData();
+        }
+        if (possible&&!node->isEnd())
+            node->setEnd(true);
+    }
+    return possible;
 }
