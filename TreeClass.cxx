@@ -103,7 +103,7 @@ bool TreeClass::wordEnd(std::string word)
 {
     //Iterate through tree looking for word
     //If word exists, end=true
-    NodoClass*  node = this->head;
+    NodoClass *node = this->head;
     bool possible = true;
     int i = 0;
     std::string acum = "";
@@ -118,7 +118,7 @@ bool TreeClass::wordEnd(std::string word)
             else
                 acum += node->getData();
         }
-        if (possible&&!node->isEnd())
+        if (possible && !node->isEnd())
             node->setEnd(true);
     }
     return possible;

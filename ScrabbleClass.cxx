@@ -53,7 +53,7 @@ std::string ScrabbleClass::help(std::string command)
 //Returns a word in only lower_case
 std::string ScrabbleClass::wordToLower(std::string word)
 {
-    for(int i=0; i<word.size(); i++)
+    for (int i = 0; i < word.size(); i++)
         word[i] = tolower(word[i]);
     return word;
 }
@@ -64,7 +64,7 @@ std::string ScrabbleClass::start(std::string archive_name)
         this->dictionary.clear();
     std::ifstream file;
     std::string retorno;
-    if (strcmp((char*)archive_name.c_str(),(char*)this->dictionary.getFile_name().c_str()))
+    if (strcmp((char *)archive_name.c_str(), (char *)this->dictionary.getFile_name().c_str()))
     {
         file.open(archive_name, std::ios::in);
         if (file.is_open())
@@ -101,7 +101,7 @@ std::string ScrabbleClass::inverse_start(std::string archive_name)
         this->inverse_dictionary.clear();
     std::ifstream file;
     std::string retorno;
-    if (strcmp((char*)archive_name.c_str(),(char*)this->inverse_dictionary.getFile_name().c_str()))
+    if (strcmp((char *)archive_name.c_str(), (char *)this->inverse_dictionary.getFile_name().c_str()))
     {
         file.open(archive_name, std::ios::in);
         if (file.is_open())
@@ -322,19 +322,20 @@ Diccionario ScrabbleClass::getDictionary()
 
 std::string ScrabbleClass::words_by_prefix(std::string prefix)
 {
-    std::string retorno = "Prefijo "+prefix+" no pudo encontrarse en el diccionario (arbol).";
+    std::string retorno = "Prefijo " + prefix + " no pudo encontrarse en el diccionario (arbol).";
     typedef std::vector<std::string> vector;
-    vector my_set=this->tree.wordsByPrefix(prefix);
-    int tam=my_set.size();
-    if (tam>0){
-        vector::iterator it=my_set.begin();
-        retorno="Las palabras que inician con este prefijo "+prefix+" son:\n";
+    vector my_set = this->tree.wordsByPrefix(prefix);
+    int tam = my_set.size();
+    if (tam > 0)
+    {
+        vector::iterator it = my_set.begin();
+        retorno = "Las palabras que inician con este prefijo " + prefix + " son:\n";
         for (; it != my_set.end(); ++it)
         {
-            retorno+=(*it);
-            if (--tam>0)
-                retorno+=',';
-            retorno+='\n';
+            retorno += (*it);
+            if (--tam > 0)
+                retorno += ',';
+            retorno += '\n';
         }
     }
     return retorno;
@@ -342,27 +343,28 @@ std::string ScrabbleClass::words_by_prefix(std::string prefix)
 
 std::string ScrabbleClass::words_by_suffix(std::string suffix)
 {
-    std::string retorno = "Sufijo "+suffix+" no pudo encontrarse en el diccionario (arbol).";
+    std::string retorno = "Sufijo " + suffix + " no pudo encontrarse en el diccionario (arbol).";
     typedef std::vector<std::string> vector;
-    vector my_vec=this->inverse_tree.wordsBySuffix(suffix);
+    vector my_vec = this->inverse_tree.wordsBySuffix(suffix);
     std::string copy;
-    int tam=my_vec.size(), tam2;
-    if (tam>0){
-        vector::iterator it=my_vec.begin();
-        retorno="Las palabras que terminan con este sufijo "+suffix+" son:\n";
+    int tam = my_vec.size(), tam2;
+    if (tam > 0)
+    {
+        vector::iterator it = my_vec.begin();
+        retorno = "Las palabras que terminan con este sufijo " + suffix + " son:\n";
         for (; it != my_vec.end(); ++it)
         {
             //Reverse word
-            copy="";
-            tam2=(*it).size();
-            for (int i=0; i<tam2; ++i)
-                copy+=(*it)[tam2-1-i];
-            retorno+=copy;
+            copy = "";
+            tam2 = (*it).size();
+            for (int i = 0; i < tam2; ++i)
+                copy += (*it)[tam2 - 1 - i];
+            retorno += copy;
             // If you want it reversed, comment the next line and uncomment the above block
             //retorno+=(*it);
-            if (--tam>0)
-                retorno+=',';
-            retorno+='\n';
+            if (--tam > 0)
+                retorno += ',';
+            retorno += '\n';
         }
     }
     return retorno;
