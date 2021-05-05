@@ -2,7 +2,41 @@
 #define DATASTRUCTURESPROJECT
 #include <string>
 #include <cstring>
+#include "Diccionario.h"
 #include <fstream>
+#include "Tree.h"
+//#include "GraphClass.h"
+class ScrabbleClass
+{
+private:
+    int sumScore(std::string word);
+    bool find_in_dictionaries(std::string word);
+    Diccionario dictionary;
+    Diccionario inverse_dictionary;
+    Tree tree;
+    Tree inverse_tree;
+    //GraphClass graph;
+
+public:
+    Diccionario getDictionary();
+    Diccionario getInverse_dictionary();
+    Tree getTree();
+    Tree getInverseTree();
+    std::string wordToLower(std::string word);
+    std::string help(void);
+    std::string help(std::string command);
+    std::string start(std::string archive_name);
+    std::string inverse_start(std::string archive_name);
+    std::string score(std::string word);
+    void exit();
+    std::string start_tree(std::string archive_name);
+    std::string start_inverse_tree(std::string archive_name);
+    std::string words_by_prefix(std::string prefix);
+    std::string words_by_suffix(std::string suffix);
+    std::string word_graph();
+    std::string possible_words(std::string characters);
+    std::string decide(std::string input);
+};
 //Codigo relevante
 /*
 Lista de Comandos:
@@ -94,42 +128,3 @@ salida en pantalla:
 (Letras inválidas) La cadena letras contiene símbolos inválidos.
 (Resultado  exitoso)  Las  posibles  palabras  a  construir  con  las   letras   letras son: descripción: Dadas ciertas letras en una cadena de caracteres (sin importar su orden), el comando debe presentar en pantalla todas las posibles palabras válidas a construir, indicando la longitud de cada una y la puntuación que se puede obtener con cada una. En las letras de la cadena de caracteres, puede admitirse un único símbolo comodín (?), el cual representará una letra desconocida y permitirá generar mayores posibilidades de palabras a construir. Para este propósito, el comando debe hacer uso del grafo de palabras construído con el comando grafo_de_palabras.
 */
-class ScrabbleClass
-{
-    //RECORDAR
-    // ayuda -> help
-    // inicializar -> start
-    // iniciar_inverso -> inverse_start
-    // puntaje -> score
-    // salir -> exit
-    // iniciar_arbol -> start_tree
-    // iniciar_arbol_inverso -> start_inverse_tree
-    // palabras_por_prefijo -> words_by_prefix
-    // palabras_por_sufijo -> words_by_suffix
-    // grafo_de_palabras -> word_graph
-    // posibles_palabras -> possible_words
-
-    //Entrega 0
-    /*o
-    - La implementación de la clase ScrabbleClass con cabecera y archivo de implementación no está correctamente hecha. Los dos archivos deberían llamarse igual que la clase, sólo difieren en la extensión. Y la extensión del archivo de implementación debería ser cxx o cpp, pues no se está haciendo uso de plantillas (que es cuando se usa el hxx).
-    - Se generan varios warnings, un par relacionados con un delete que no se hace correctamente y otros por conversión de cadenas de c
-    caracteres literales a char*.
-    - Para el comando posibles_palabras, a pesar de que lo llamo con su parámetro, me dice que es un comando inválido.
-    */
-    
-    public:
-        char* help(void);
-        char* help(char *command);
-        char* start(char* archive_name);
-        char* inverse_start(char* archive_name);
-        char* score(char* word);
-        void exit();
-        char* start_tree(char* archive_name);
-        char* start_inverse_tree(char* archive_name);
-        char* words_by_prefix(char* prefix);
-        char* words_by_suffix(char* suffix);
-        char* word_graph();
-        char* possible_words(char* characters);
-};
-char *decide(ScrabbleClass *obj, char *input);
-#endif

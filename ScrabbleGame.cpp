@@ -13,15 +13,14 @@ int main()
         // Save space for the input
         input = new char[MAX];
         cout << "$ ";
-
         // Read input from cin
         cin.getline(input, MAX, '\n');
-
         // Show response message
-        cout << decide(object, input) << endl;
-
+        cout << object->decide(input) << std::endl;
         // Free space
         delete[] input;
     }
+    // Unnecesary delete
+    delete object;
     return 0;
 }
