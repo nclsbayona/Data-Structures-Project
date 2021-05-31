@@ -318,42 +318,63 @@ std::string ScrabbleClass::possible_words(std::string letras)
 
 std::string ScrabbleClass::word_graph()
 {
-    std::string retorno = this->help("grafo_de_palabras");
-    std::set<std::pair<int, std::string>> setPairs;
-    std::list<Palabra>::iterator it;
-    std::list<Palabra> lista = this->dictionary.getList();
-    for (it = lista.begin(); it != lista.end(); it++)
-        setPairs.insert(std::make_pair(it->getWord().size(), it->getWord()));
-    /* for (std::set<std::pair<int,std::string>>::iterator it=setPairs.begin();it!=setPairs.end(); ++it)
-        std::cout<<std::to_string(it->first)<<" "<<it->second<<'\n'; */
-    std::set<std::pair<int, std::string>>::iterator it_max_size;
-    int maxSize = -1, difference;
-    char valorstartend, valorendstart;
-    for (std::set<std::pair<int, std::string>>::iterator it = setPairs.begin(); it != setPairs.end(); ++it)
+
+    std::string retorno = "Grafo inicializado correctamente";
+    try
     {
-        if (maxSize < it->first - 1)
+        std::set<std::pair<int, std::string>> setPairs;
+        std::list<Palabra>::iterator it;
+        std::list<Palabra> lista = this->dictionary.getList();
+        for (it = lista.begin(); it != lista.end(); it++)
+            setPairs.insert(std::make_pair(it->getWord().size(), it->getWord()));
+        /* for (std::set<std::pair<int,std::string>>::iterator it=setPairs.begin();it!=setPairs.end(); ++it)
+        std::cout<<std::to_string(it->first)<<" "<<it->second<<'\n'; */
+        std::set<std::pair<int, std::string>>::iterator it_max_size;
+        int maxSize = -1, difference;
+        char valorstartend, valorendstart;
+        for (std::set<std::pair<int, std::string>>::iterator it = setPairs.begin(); it != setPairs.end(); ++it)
         {
-            maxSize = it->first;
-            it_max_size = it;
-        }
-        else
-        {
-            for (std::set<std::pair<int, std::string>>::iterator it2 = it_max_size; it2 != it; it2++)
+            if (maxSize < it->first - 1)
             {
-                difference = abs(it2->first - it->first);
-                for (int i = 0; i < it2->first && i < it->first && difference < 2; ++i)
-                    if (it2->second[i] != it->second[i])
-                    {
-                        valorstartend = it2->second[i];
-                        valorendstart = it->second[i];
-                        difference += 1;
-                    }
-                if (difference == 1)
+                maxSize = it->first;
+                it_max_size = it;
+            }
+            else
+            {
+                for (std::set<std::pair<int, std::string>>::iterator it2 = it_max_size; it2 != it; it2++)
                 {
-                    this->graph.agregarArista(it2->second, it->second, valorstartend, valorendstart);
+                    difference = abs(it2->first - it->first);
+                    if (difference == 1)
+                    {
+                        if (it2->first > it->first)
+                        {
+                            valorstartend = it2->first;
+                            valorendstart = it2->first; // Caracter espacio significa que la otra palabra requiere de una letra más
+                        }
+                        else
+                        {
+                            valorendstart = it->first;
+                            valorstartend = it->first; // Caracter espacio significa que la otra palabra requiere de una letra más
+                        }
+                    }
+                    for (int i = 0; i < it2->first && i < it->first && difference < 2; ++i)
+                        if (it2->second[i] != it->second[i])
+                        {
+                            valorstartend = i;
+                            valorendstart = i;
+                            difference += 1;
+                        }
+                    if (difference == 1)
+                    {
+                        this->graph.agregarArista(it2->second, it->second, valorstartend, valorendstart);
+                    }
                 }
             }
         }
+    }
+    catch (...)
+    {
+        retorno = "Ha ocurrido un error, intentelo de nuevo";
     }
     return retorno;
 }

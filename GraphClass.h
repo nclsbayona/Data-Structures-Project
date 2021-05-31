@@ -8,7 +8,7 @@ class GraphClass
 private:
     bool dirigido;
     std::vector<std::string> values;
-    std::map<int, std::map<int, char>> vertices_aristas;
+    std::map<int, std::map<int, int>> vertices_aristas;
 
 public:
     std::string printGraph();

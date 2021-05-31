@@ -10,7 +10,7 @@ GraphClass::GraphClass(bool dirigido)
 std::string GraphClass::printGraph()
 {
     std::string printing = "\nPeso 0 implica que no tiene peso, una lista vacía significa que es un nodo isla o un nodo sumidero\n\n";
-    typedef std::map<int, char> W;
+    typedef std::map<int, int> W;
     typename std::map<int, W>::iterator it_vertices = this->vertices_aristas.begin();
     typename W::iterator it_aristas;
     printing += "{\n\t[";
@@ -22,7 +22,7 @@ std::string GraphClass::printGraph()
         {
             printing += "\t\t\t\t" + this->values[it_aristas->first] + ": [";
             printing += " ";
-            printing +=it_aristas->second;
+            printing +=std::to_string(it_aristas->second);
             printing += " ]\n";
         }
         printing += "\t\t\t]\n\t\t}\n";
