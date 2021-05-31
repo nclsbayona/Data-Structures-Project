@@ -5,6 +5,9 @@
 #include "Diccionario.h"
 #include <fstream>
 #include "Tree.h"
+#include <set>
+#include <utility>
+#include "GraphClass.h"
 //#include "GraphClass.h"
 class ScrabbleClass
 {
@@ -14,8 +17,8 @@ private:
     Diccionario dictionary;
     Diccionario inverse_dictionary;
     Tree tree;
-    Tree inverse_tree;
-    //GraphClass graph;
+    Tree inverse_tree;    int x=0;
+    GraphClass graph;
 
 public:
     Diccionario getDictionary();

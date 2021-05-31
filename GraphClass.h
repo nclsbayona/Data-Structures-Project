@@ -1,20 +1,21 @@
 #ifndef GRAPHCLASS_H
 #define GRAPHCLASS_H
-#include "Palabra.h"
+#include <string>
 #include <vector>
 #include <map>
 class GraphClass
 {
 private:
-bool dirigido;
-        std::vector<Palabra> values;
-        std::map<int,std::map<int, char>> vertices_aristas;
+    bool dirigido;
+    std::vector<std::string> values;
+    std::map<int, std::map<int, char>> vertices_aristas;
+
 public:
     std::string printGraph();
-    GraphClass(bool dirigido);
-    bool agregarArista(Palabra start, Palabra end, char value, int directed);
-    bool agregarVertice(Palabra start);
-    bool buscarVertice(Palabra start);
-    int indexOf(Palabra start);
+    GraphClass(bool dirigido=0);
+    bool agregarArista(std::string start, std::string end, char value_startend, char value2_endstart);
+    bool agregarVertice(std::string start);
+    bool buscarVertice(std::string start);
+    int indexOf(std::string start);
 };
 #endif

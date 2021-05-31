@@ -1,5 +1,6 @@
 #include <cstdlib>
 #include <ctype.h>
+#include <iostream>
 #include "ScrabbleClass.h"
 using namespace std;
 
@@ -60,6 +61,7 @@ std::string ScrabbleClass::wordToLower(std::string word)
 //Reads a file in txt format and load the words in a list to initialize the dictionary
 std::string ScrabbleClass::start(std::string archive_name)
 {
+    int m = 0;
     if (this->dictionary.size())
         this->dictionary.clear();
     std::ifstream file;
@@ -77,8 +79,12 @@ std::string ScrabbleClass::start(std::string archive_name)
                 Palabra word(line, 1);
                 if (word.getWord() != "")
                     this->dictionary.add_word(word);
-                else
-                    retorno += "No se agrego una palabra ya que contiene caracteres invalido(s) o esta vacia\n";
+                else if (m == 0)
+                {
+
+                    retorno += "No se agrego una(s) palabra ya que contiene caracteres invalido(s) o esta vacia\n";
+                    m++;
+                }
             }
             retorno += "El diccionario se ha inicializado correctamente";
         }
@@ -91,12 +97,14 @@ std::string ScrabbleClass::start(std::string archive_name)
     }
     else
         retorno += "El diccionario ya ha sido inicializado\n";
+    this->dictionary.sort();
     return retorno;
 }
 
 //Reads a file in format txt and loads the words in a list to initialize the inverse dictionary
 std::string ScrabbleClass::inverse_start(std::string archive_name)
 {
+    int m = 0;
     if (!this->inverse_dictionary.size())
         this->inverse_dictionary.clear();
     std::ifstream file;
@@ -114,8 +122,11 @@ std::string ScrabbleClass::inverse_start(std::string archive_name)
                 Palabra word(line, 0);
                 if (word.getWord() != "")
                     this->inverse_dictionary.add_word(word);
-                else
+                else if (m == 0)
+                {
                     retorno += "No se agrego una palabra ya que contiene caracteres invalido(s) o esta vacia\n";
+                    m++;
+                }
             }
             retorno += "El diccionario invertido se ha inicializado correctamente";
         }
@@ -128,6 +139,7 @@ std::string ScrabbleClass::inverse_start(std::string archive_name)
     }
     else
         retorno += "El diccionario invertido ya ha sido inicializado\n";
+    this->inverse_dictionary.sort();
     return retorno;
 }
 
@@ -284,6 +296,8 @@ std::string ScrabbleClass::start_inverse_tree(std::string file_name)
             }
             if (!flag)
                 retorno += "Se ha inicializado correctamente el arbol";
+            else
+                retorno += "No se agrego una(s) palabra(s) ya que contiene caracteres invalido(s) o esta vacia\nEl arbol se ha inicializado correctamente";
         }
         else if (!file.is_open())
         {
@@ -305,6 +319,42 @@ std::string ScrabbleClass::possible_words(std::string letras)
 std::string ScrabbleClass::word_graph()
 {
     std::string retorno = this->help("grafo_de_palabras");
+    std::set<std::pair<int, std::string>> setPairs;
+    std::list<Palabra>::iterator it;
+    std::list<Palabra> lista = this->dictionary.getList();
+    for (it = lista.begin(); it != lista.end(); it++)
+        setPairs.insert(std::make_pair(it->getWord().size(), it->getWord()));
+    /* for (std::set<std::pair<int,std::string>>::iterator it=setPairs.begin();it!=setPairs.end(); ++it)
+        std::cout<<std::to_string(it->first)<<" "<<it->second<<'\n'; */
+    std::set<std::pair<int, std::string>>::iterator it_max_size;
+    int maxSize = -1, difference;
+    char valorstartend, valorendstart;
+    for (std::set<std::pair<int, std::string>>::iterator it = setPairs.begin(); it != setPairs.end(); ++it)
+    {
+        if (maxSize < it->first - 1)
+        {
+            maxSize = it->first;
+            it_max_size = it;
+        }
+        else
+        {
+            for (std::set<std::pair<int, std::string>>::iterator it2 = it_max_size; it2 != it; it2++)
+            {
+                difference = abs(it2->first - it->first);
+                for (int i = 0; i < it2->first && i < it->first && difference < 2; ++i)
+                    if (it2->second[i] != it->second[i])
+                    {
+                        valorstartend = it2->second[i];
+                        valorendstart = it->second[i];
+                        difference += 1;
+                    }
+                if (difference == 1)
+                {
+                    this->graph.agregarArista(it2->second, it->second, valorstartend, valorendstart);
+                }
+            }
+        }
+    }
     return retorno;
 }
 
@@ -339,10 +389,10 @@ std::string ScrabbleClass::words_by_prefix(std::string prefix)
         for (; it != my_set.end(); ++it)
         {
             retorno += (*it);
-            retorno+=(" longitud: ");
-            retorno+=std::to_string((*it).size());
-            retorno+=(" puntaje: ");
-            retorno+=std::to_string(this->sumScore(*it));
+            retorno += (" longitud: ");
+            retorno += std::to_string((*it).size());
+            retorno += (" puntaje: ");
+            retorno += std::to_string(this->sumScore(*it));
             if (--tam > 0)
                 retorno += ',';
             retorno += '\n';
@@ -371,11 +421,14 @@ std::string ScrabbleClass::words_by_suffix(std::string suffix)
                 copy += (*it)[tam2 - 1 - i];
             //retorno += copy;
             // If you want it reversed, comment the next line and uncomment the above block
-            retorno+=(*it);
-            retorno+=(" longitud: "+tam2);
-            retorno+=(" puntaje: "+this->sumScore(*it));
+            retorno += (*it);
+            retorno += (" longitud: ");
+            retorno += std::to_string(tam2);
+            retorno += (" puntaje: ");
+            retorno += std::to_string(this->sumScore(*it));
             if (--tam > 0)
-                retorno += ',';
+                if (--tam > 0)
+                    retorno += ',';
             retorno += '\n';
         }
     }
@@ -409,6 +462,9 @@ std::string ScrabbleClass::decide(std::string input)
     // Compares input with a value and returns its corresponding message
     else if (input == "imprimir_arbol_inverso")
         retorno = this->inverse_tree.printTree();
+    // Compares input with a value and returns its corresponding message
+    else if (input == "imprimir_grafo")
+        retorno = this->graph.printGraph();
     else if (input.size() >= 7)
     {
         int k = 0;

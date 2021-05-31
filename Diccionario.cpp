@@ -42,3 +42,9 @@ void Diccionario::setFile_name(std::string archive_name)
 {
     this->file_name = file_name;
 }
+std::list<Palabra> Diccionario::getList(){
+    return this->lista_palabras;
+}
+void Diccionario::sort(){
+    this->lista_palabras.sort();
+}

@@ -25,6 +25,10 @@ public:
     void clear();
     //Checks if the word list is empty
     int size();
+    //Return lista_palabras
+    std::list<Palabra> getList();
+    //Sort
+    void sort();
     //Return the file name
     std::string getFile_name();
     //Returns a list with all words that have the specified preffix in the dictionary

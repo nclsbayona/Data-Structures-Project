@@ -7,7 +7,6 @@
 !*.pdf
 !*.txt
 !*.md
-!*.hxx
 !*/
 !.git
 !.github
