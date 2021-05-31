@@ -284,8 +284,6 @@ std::string ScrabbleClass::start_inverse_tree(std::string file_name)
             }
             if (!flag)
                 retorno += "Se ha inicializado correctamente el arbol";
-            else
-                retorno += "No se agrego una(s) palabra(s) ya que contiene caracteres invalido(s) o esta vacia\nEl arbol inverso se ha inicializado correctamente";
         }
         else if (!file.is_open())
         {
@@ -341,6 +339,10 @@ std::string ScrabbleClass::words_by_prefix(std::string prefix)
         for (; it != my_set.end(); ++it)
         {
             retorno += (*it);
+            retorno+=(" longitud: ");
+            retorno+=std::to_string((*it).size());
+            retorno+=(" puntaje: ");
+            retorno+=std::to_string(this->sumScore(*it));
             if (--tam > 0)
                 retorno += ',';
             retorno += '\n';
@@ -367,9 +369,11 @@ std::string ScrabbleClass::words_by_suffix(std::string suffix)
             tam2 = (*it).size();
             for (int i = 0; i < tam2; ++i)
                 copy += (*it)[tam2 - 1 - i];
-            retorno += copy;
+            //retorno += copy;
             // If you want it reversed, comment the next line and uncomment the above block
-            //retorno+=(*it);
+            retorno+=(*it);
+            retorno+=(" longitud: "+tam2);
+            retorno+=(" puntaje: "+this->sumScore(*it));
             if (--tam > 0)
                 retorno += ',';
             retorno += '\n';

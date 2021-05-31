@@ -1,5 +1,4 @@
 #include "TreeClass.h"
-#include <iostream>
 TreeClass::TreeClass(char head_data, bool end)
 {
     //In case word is a single character

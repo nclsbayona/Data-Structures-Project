@@ -52,3 +52,9 @@ bool Palabra::suffixInWord(std::string suffix){
     }
     return true;
 }
+std::string Palabra::to_string(){
+    return "Palabra: "+this->word+"longitud "+std::to_string(this->word.size())+'\n';
+}
+bool Palabra::operator==(const Palabra &p){
+    return (this->word==((Palabra)(p)).getWord());
+}

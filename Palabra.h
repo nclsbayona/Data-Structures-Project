@@ -19,5 +19,7 @@ public:
     std::string invertOrder();
     bool suffixInWord(std::string suffix); 
     bool prefixInWord(std::string prefix);
+    std::string to_string();
+    bool operator==(const Palabra &p);
 };
 #endif
