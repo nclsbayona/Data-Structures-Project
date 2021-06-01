@@ -313,10 +313,10 @@ std::string ScrabbleClass::start_inverse_tree(std::string file_name)
 std::string ScrabbleClass::possible_words(std::string letras)
 {
     std::string retorno = "";
-    bool flag=true;
+    bool flag = true;
     int cont = 0;
     // Caracteres validos
-    for (int i = 0; i < letras.size()&&flag; ++i)
+    for (int i = 0; i < letras.size() && flag; ++i)
     {
         if (!((letras[i] > 64 && letras[i] < 92) || (letras[i] > 96 && letras[i] < 123)))
         {
@@ -371,9 +371,9 @@ std::string ScrabbleClass::word_graph()
             }
             else
             {
+                this->graph.agregarVertice(it->second);
                 for (std::set<std::pair<int, std::string>>::iterator it2 = it_max_size; it2 != it; it2++)
                 {
-                    this->graph.agregarVertice(it2->second);
                     difference = abs(it2->first - it->first);
                     if (difference == 1)
                     {
