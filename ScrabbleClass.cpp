@@ -313,10 +313,10 @@ std::string ScrabbleClass::start_inverse_tree(std::string file_name)
 std::string ScrabbleClass::possible_words(std::string letras)
 {
     std::string retorno = "";
-    bool flag;
+    bool flag=true;
     int cont = 0;
     // Caracteres validos
-    for (int i = 0; i < letras.size(); ++i)
+    for (int i = 0; i < letras.size()&&flag; ++i)
     {
         if (!((letras[i] > 64 && letras[i] < 92) || (letras[i] > 96 && letras[i] < 123)))
         {
@@ -363,15 +363,17 @@ std::string ScrabbleClass::word_graph()
         char valorstartend, valorendstart;
         for (std::set<std::pair<int, std::string>>::iterator it = setPairs.begin(); it != setPairs.end(); ++it)
         {
-            if (maxSize < it->first - 1)
+            if (maxSize < it->first)
             {
                 maxSize = it->first;
                 it_max_size = it;
+                this->graph.agregarVertice(it->second);
             }
             else
             {
                 for (std::set<std::pair<int, std::string>>::iterator it2 = it_max_size; it2 != it; it2++)
                 {
+                    this->graph.agregarVertice(it2->second);
                     difference = abs(it2->first - it->first);
                     if (difference == 1)
                     {
@@ -541,8 +543,6 @@ std::string ScrabbleClass::decide(std::string input)
                 retorno = this->words_by_prefix(words[1]);
             else if (words[0] == "palabras_por_sufijo")
                 retorno = this->words_by_suffix(words[1]);
-            else if (words[0] == "posibles_palabras")
-                retorno = this->possible_words(words[1]);
         }
     }
     return retorno;
