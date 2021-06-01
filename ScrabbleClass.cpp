@@ -312,12 +312,40 @@ std::string ScrabbleClass::start_inverse_tree(std::string file_name)
 }
 std::string ScrabbleClass::possible_words(std::string letras)
 {
-    std::string retorno = this->help("palabras_posibles");
+    std::string retorno = "";
+    bool flag;
+    int cont = 0;
+    // Caracteres validos
+    for (int i = 0; i < letras.size(); ++i)
+    {
+        if (!((letras[i] > 64 && letras[i] < 92) || (letras[i] > 96 && letras[i] < 123)))
+        {
+            if (letras[i] == 63)
+                cont++;
+            if (cont != 1)
+            {
+                retorno = "La cadena letras contiene símbolos inválidos\n";
+                flag = false;
+            }
+        }
+    }
+    if (flag)
+    {
+        std::vector<std::string> posibles_palabra = this->graph.possibleWords(letras);
+        retorno = "Las posibles palabras a construir con las letras " + letras + " son:\n";
+        for (std::string palabra : posibles_palabra)
+        {
+            retorno += palabra;
+            retorno += "\n";
+        }
+    }
     return retorno;
 }
 
 std::string ScrabbleClass::word_graph()
 {
+    if (this->graph.dataOnIt())
+        this->graph.clearGraph();
     std::string retorno = "Grafo inicializado correctamente";
     try
     {
@@ -348,9 +376,9 @@ std::string ScrabbleClass::word_graph()
                     if (difference == 1)
                     {
                         if (it2->first > it->first)
-                            valorendstart=valorstartend = it->first;
+                            valorendstart = valorstartend = it->first;
                         else
-                            valorstartend=valorendstart = it2->first;
+                            valorstartend = valorendstart = it2->first;
                     }
                     //std::cout<<"Here\n";
                     for (int i = 0; i < it2->first && i < it->first && difference < 2; ++i)

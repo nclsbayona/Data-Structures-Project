@@ -79,12 +79,38 @@ bool GraphClass::agregarArista(std::string start, std::string end, char value_st
     return valid;
 }
 
-std::string GraphClass::wordAs(std::string pattern)
+std::vector<std::string> GraphClass::possibleWords(std::string pattern)
 {
-    std::string retorno = "";
-    for (std::vector<std::string>::iterator it = this->values.begin(); it != this->values.end() && retorno == ""; ++it)
+    std::vector<std::string> retorno;
+    bool valido = true;
+    const char caracter_comodin='?';
+    int patSize = pattern.size();
+    int pos=-1;
+    for (std::vector<std::string>::iterator it = this->values.begin(); it != this->values.end() && retorno.empty() && valido; ++it)
     {
         //Verificar aquí que cumpla con el patron que llega como parámetro
+        if (patSize == it->size())
+        {
+            for (int i = 0; i < patSize && valido; ++i)
+            {
+                if (pattern[i]==caracter_comodin)
+                    pos=i;
+                else if (pattern[i] != caracter_comodin && pattern[i] != (*it)[i])
+                    valido = false;
+            }
+            if (valido)
+            {
+                retorno.push_back(*it);
+                if (pos!=-1)
+                    for (std::map<int, int>::iterator it_arista=this->vertices_aristas[this->indexOf(*it)].begin();it_arista!=this->vertices_aristas[this->indexOf(*it)].end(); ++it_arista){
+                        if (it_arista->second==pos)
+                            retorno.push_back(this->values[it_arista->first]);
+                    }
+            }
+            valido = true;
+        }
+        else if (patSize < it->size())
+            valido = false;
     }
     return retorno;
 }
