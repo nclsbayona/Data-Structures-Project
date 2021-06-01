@@ -64,10 +64,6 @@ bool GraphClass::agregarArista(std::string start, std::string end, char value_st
     bool valid = 0;
     try
     {
-        if (!this->buscarVertice(start))
-            this->agregarVertice(start);
-        if (!this->buscarVertice(end))
-            this->agregarVertice(end);
         this->vertices_aristas[this->indexOf(end)][this->indexOf(start)] = (value2_endstart);
         this->vertices_aristas[this->indexOf(start)][this->indexOf(end)] = (value_startend);
         valid = 1;

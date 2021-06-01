@@ -336,6 +336,10 @@ std::string ScrabbleClass::possible_words(std::string letras)
         for (std::string palabra : posibles_palabra)
         {
             retorno += palabra;
+            retorno += (" longitud: ");
+            retorno += std::to_string(palabra.size());
+            retorno += (" puntaje: ");
+            retorno += std::to_string(this->sumScore(palabra));
             retorno += "\n";
         }
     }
