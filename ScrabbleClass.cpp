@@ -318,7 +318,6 @@ std::string ScrabbleClass::possible_words(std::string letras)
 
 std::string ScrabbleClass::word_graph()
 {
-
     std::string retorno = "Grafo inicializado correctamente";
     try
     {
@@ -327,8 +326,10 @@ std::string ScrabbleClass::word_graph()
         std::list<Palabra> lista = this->dictionary.getList();
         for (it = lista.begin(); it != lista.end(); it++)
             setPairs.insert(std::make_pair(it->getWord().size(), it->getWord()));
-        /* for (std::set<std::pair<int,std::string>>::iterator it=setPairs.begin();it!=setPairs.end(); ++it)
-        std::cout<<std::to_string(it->first)<<" "<<it->second<<'\n'; */
+        /* To print the set, uncomment 
+        for (std::set<std::pair<int,std::string>>::iterator it=setPairs.begin();it!=setPairs.end(); ++it)
+            std::cout<<std::to_string(it->first)<<" "<<it->second<<'\n';
+        */
         std::set<std::pair<int, std::string>>::iterator it_max_size;
         int maxSize = -1, difference;
         char valorstartend, valorendstart;
@@ -347,16 +348,11 @@ std::string ScrabbleClass::word_graph()
                     if (difference == 1)
                     {
                         if (it2->first > it->first)
-                        {
-                            valorstartend = it2->first;
-                            valorendstart = it2->first; // Caracter espacio significa que la otra palabra requiere de una letra más
-                        }
+                            valorendstart=valorstartend = it->first;
                         else
-                        {
-                            valorendstart = it->first;
-                            valorstartend = it->first; // Caracter espacio significa que la otra palabra requiere de una letra más
-                        }
+                            valorstartend=valorendstart = it2->first;
                     }
+                    //std::cout<<"Here\n";
                     for (int i = 0; i < it2->first && i < it->first && difference < 2; ++i)
                         if (it2->second[i] != it->second[i])
                         {

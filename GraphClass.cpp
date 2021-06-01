@@ -1,6 +1,5 @@
 #include "GraphClass.h"
 #include <algorithm>
-#include <iostream>
 
 GraphClass::GraphClass(bool dirigido)
 {
@@ -22,7 +21,7 @@ std::string GraphClass::printGraph()
         {
             printing += "\t\t\t\t" + this->values[it_aristas->first] + ": [";
             printing += " ";
-            printing +=std::to_string(it_aristas->second);
+            printing += std::to_string(it_aristas->second);
             printing += " ]\n";
         }
         printing += "\t\t\t]\n\t\t}\n";
@@ -78,4 +77,25 @@ bool GraphClass::agregarArista(std::string start, std::string end, char value_st
         valid = 0;
     }
     return valid;
+}
+
+std::string GraphClass::wordAs(std::string pattern)
+{
+    std::string retorno = "";
+    for (std::vector<std::string>::iterator it = this->values.begin(); it != this->values.end() && retorno == ""; ++it)
+    {
+        //Verificar aquí que cumpla con el patron que llega como parámetro
+    }
+    return retorno;
+}
+
+void GraphClass::clearGraph()
+{
+    this->values.clear();
+    this->vertices_aristas.clear();
+}
+
+bool GraphClass::dataOnIt()
+{
+    return !this->values.empty();
 }

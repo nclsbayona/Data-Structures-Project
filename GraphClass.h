@@ -17,5 +17,8 @@ public:
     bool agregarVertice(std::string start);
     bool buscarVertice(std::string start);
     int indexOf(std::string start);
+    std::string wordAs(std::string pattern);
+    void clearGraph();
+    bool dataOnIt();
 };
 #endif
