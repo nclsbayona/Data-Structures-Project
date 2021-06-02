@@ -17,7 +17,7 @@ private:
     Diccionario dictionary;
     Diccionario inverse_dictionary;
     Tree tree;
-    Tree inverse_tree;    int x=0;
+    Tree inverse_tree;
     GraphClass graph;
 
 public:
