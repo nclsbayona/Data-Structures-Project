@@ -312,48 +312,99 @@ std::string ScrabbleClass::start_inverse_tree(std::string file_name)
 }
 std::string ScrabbleClass::possible_words(std::string letras)
 {
-    std::string retorno = this->help("palabras_posibles");
+    std::string retorno = "";
+    bool flag = true;
+    int cont = 0;
+    // Caracteres validos
+    for (int i = 0; i < letras.size() && flag; ++i)
+    {
+        if (!((letras[i] > 64 && letras[i] < 92) || (letras[i] > 96 && letras[i] < 123)))
+        {
+            if (letras[i] == 63)
+                cont++;
+            if (cont != 1)
+            {
+                retorno = "La cadena letras contiene símbolos inválidos\n";
+                flag = false;
+            }
+        }
+    }
+    if (flag)
+    {
+        std::vector<std::string> posibles_palabra = this->graph.possibleWords(letras);
+        retorno = "Las posibles palabras a construir con las letras " + letras + " son:\n";
+        for (std::string palabra : posibles_palabra)
+        {
+            retorno += palabra;
+            retorno += (" longitud: ");
+            retorno += std::to_string(palabra.size());
+            retorno += (" puntaje: ");
+            retorno += std::to_string(this->sumScore(palabra));
+            retorno += "\n";
+        }
+    }
     return retorno;
 }
 
 std::string ScrabbleClass::word_graph()
 {
-    std::string retorno = this->help("grafo_de_palabras");
-    std::set<std::pair<int, std::string>> setPairs;
-    std::list<Palabra>::iterator it;
-    std::list<Palabra> lista = this->dictionary.getList();
-    for (it = lista.begin(); it != lista.end(); it++)
-        setPairs.insert(std::make_pair(it->getWord().size(), it->getWord()));
-    /* for (std::set<std::pair<int,std::string>>::iterator it=setPairs.begin();it!=setPairs.end(); ++it)
-        std::cout<<std::to_string(it->first)<<" "<<it->second<<'\n'; */
-    std::set<std::pair<int, std::string>>::iterator it_max_size;
-    int maxSize = -1, difference;
-    char valorstartend, valorendstart;
-    for (std::set<std::pair<int, std::string>>::iterator it = setPairs.begin(); it != setPairs.end(); ++it)
+    if (this->graph.dataOnIt())
+        this->graph.clearGraph();
+    std::string retorno = "Grafo inicializado correctamente";
+    try
     {
-        if (maxSize < it->first - 1)
+        std::set<std::pair<int, std::string>> setPairs;
+        std::list<Palabra>::iterator it;
+        std::list<Palabra> lista = this->dictionary.getList();
+        for (it = lista.begin(); it != lista.end(); it++)
+            setPairs.insert(std::make_pair(it->getWord().size(), it->getWord()));
+        /* To print the set, uncomment 
+        for (std::set<std::pair<int,std::string>>::iterator it=setPairs.begin();it!=setPairs.end(); ++it)
+            std::cout<<std::to_string(it->first)<<" "<<it->second<<'\n';
+        */
+        std::set<std::pair<int, std::string>>::iterator it_max_size;
+        int maxSize = -1, difference;
+        char valorstartend, valorendstart;
+        for (std::set<std::pair<int, std::string>>::iterator it = setPairs.begin(); it != setPairs.end(); ++it)
         {
-            maxSize = it->first;
-            it_max_size = it;
-        }
-        else
-        {
-            for (std::set<std::pair<int, std::string>>::iterator it2 = it_max_size; it2 != it; it2++)
+            if (maxSize < it->first)
             {
-                difference = abs(it2->first - it->first);
-                for (int i = 0; i < it2->first && i < it->first && difference < 2; ++i)
-                    if (it2->second[i] != it->second[i])
-                    {
-                        valorstartend = it2->second[i];
-                        valorendstart = it->second[i];
-                        difference += 1;
-                    }
-                if (difference == 1)
+                maxSize = it->first;
+                it_max_size = it;
+                this->graph.agregarVertice(it->second);
+            }
+            else
+            {
+                this->graph.agregarVertice(it->second);
+                for (std::set<std::pair<int, std::string>>::iterator it2 = it_max_size; it2 != it; it2++)
                 {
-                    this->graph.agregarArista(it2->second, it->second, valorstartend, valorendstart);
+                    difference = abs(it2->first - it->first);
+                    if (difference == 1)
+                    {
+                        if (it2->first > it->first)
+                            valorendstart = valorstartend = it->first;
+                        else
+                            valorstartend = valorendstart = it2->first;
+                    }
+                    //std::cout<<"Here\n";
+                    for (int i = 0; i < it2->first && i < it->first && difference < 2; ++i)
+                        if (it2->second[i] != it->second[i])
+                        {
+                            valorstartend = i;
+                            valorendstart = i;
+                            difference += 1;
+                        }
+                    if (difference == 1)
+                    {
+                        this->graph.agregarArista(it2->second, it->second, valorstartend, valorendstart);
+                    }
                 }
             }
         }
+    }
+    catch (...)
+    {
+        retorno = "Ha ocurrido un error, intentelo de nuevo";
     }
     return retorno;
 }
@@ -496,8 +547,6 @@ std::string ScrabbleClass::decide(std::string input)
                 retorno = this->words_by_prefix(words[1]);
             else if (words[0] == "palabras_por_sufijo")
                 retorno = this->words_by_suffix(words[1]);
-            else if (words[0] == "posibles_palabras")
-                retorno = this->possible_words(words[1]);
         }
     }
     return retorno;

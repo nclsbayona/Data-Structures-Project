@@ -8,7 +8,7 @@ class GraphClass
 private:
     bool dirigido;
     std::vector<std::string> values;
-    std::map<int, std::map<int, char>> vertices_aristas;
+    std::map<int, std::map<int, int>> vertices_aristas;
 
 public:
     std::string printGraph();
@@ -17,5 +17,8 @@ public:
     bool agregarVertice(std::string start);
     bool buscarVertice(std::string start);
     int indexOf(std::string start);
+    std::vector<std::string> possibleWords(std::string pattern);
+    void clearGraph();
+    bool dataOnIt();
 };
 #endif

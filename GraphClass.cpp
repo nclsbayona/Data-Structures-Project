@@ -1,6 +1,5 @@
 #include "GraphClass.h"
 #include <algorithm>
-#include <iostream>
 
 GraphClass::GraphClass(bool dirigido)
 {
@@ -10,7 +9,7 @@ GraphClass::GraphClass(bool dirigido)
 std::string GraphClass::printGraph()
 {
     std::string printing = "\nPeso 0 implica que no tiene peso, una lista vacía significa que es un nodo isla o un nodo sumidero\n\n";
-    typedef std::map<int, char> W;
+    typedef std::map<int, int> W;
     typename std::map<int, W>::iterator it_vertices = this->vertices_aristas.begin();
     typename W::iterator it_aristas;
     printing += "{\n\t[";
@@ -22,7 +21,7 @@ std::string GraphClass::printGraph()
         {
             printing += "\t\t\t\t" + this->values[it_aristas->first] + ": [";
             printing += " ";
-            printing +=it_aristas->second;
+            printing += std::to_string(it_aristas->second);
             printing += " ]\n";
         }
         printing += "\t\t\t]\n\t\t}\n";
@@ -65,10 +64,6 @@ bool GraphClass::agregarArista(std::string start, std::string end, char value_st
     bool valid = 0;
     try
     {
-        if (!this->buscarVertice(start))
-            this->agregarVertice(start);
-        if (!this->buscarVertice(end))
-            this->agregarVertice(end);
         this->vertices_aristas[this->indexOf(end)][this->indexOf(start)] = (value2_endstart);
         this->vertices_aristas[this->indexOf(start)][this->indexOf(end)] = (value_startend);
         valid = 1;
@@ -78,4 +73,51 @@ bool GraphClass::agregarArista(std::string start, std::string end, char value_st
         valid = 0;
     }
     return valid;
+}
+
+std::vector<std::string> GraphClass::possibleWords(std::string pattern)
+{
+    std::vector<std::string> retorno;
+    bool valido = true;
+    const char caracter_comodin='?';
+    int patSize = pattern.size();
+    int pos=-1;
+    for (std::vector<std::string>::iterator it = this->values.begin(); it != this->values.end() && retorno.empty() && valido; ++it)
+    {
+        //Verificar aquí que cumpla con el patron que llega como parámetro
+        if (patSize == it->size())
+        {
+            for (int i = 0; i < patSize && valido; ++i)
+            {
+                if (pattern[i]==caracter_comodin)
+                    pos=i;
+                else if (pattern[i] != caracter_comodin && pattern[i] != (*it)[i])
+                    valido = false;
+            }
+            if (valido)
+            {
+                retorno.push_back(*it);
+                if (pos!=-1)
+                    for (std::map<int, int>::iterator it_arista=this->vertices_aristas[this->indexOf(*it)].begin();it_arista!=this->vertices_aristas[this->indexOf(*it)].end(); ++it_arista){
+                        if (it_arista->second==pos)
+                            retorno.push_back(this->values[it_arista->first]);
+                    }
+            }
+            valido = true;
+        }
+        else if (patSize < it->size())
+            valido = false;
+    }
+    return retorno;
+}
+
+void GraphClass::clearGraph()
+{
+    this->values.clear();
+    this->vertices_aristas.clear();
+}
+
+bool GraphClass::dataOnIt()
+{
+    return !this->values.empty();
 }

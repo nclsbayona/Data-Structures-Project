@@ -68,9 +68,3 @@ bool Palabra::operator==(const Palabra &p)
 {
     return this->word<((Palabra)(p)).getWord();
 }
-bool Palabra::oneCharacterDifference(Palabra &p)
-{
-    bool retorno = false;
-    
-    return retorno;
-}
